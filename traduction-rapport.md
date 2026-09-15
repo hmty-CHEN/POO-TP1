@@ -12,7 +12,16 @@
 
 **问题 3**
 
-UML 图见 `docs/uml-exercices-1-a-10.md`。
+```mermaid
+classDiagram
+    class Lapin {
+        +int x
+        +int y
+        +int energie
+        +int age
+        +int vitesse
+    }
+```
 
 ## 练习 6
 
@@ -24,4 +33,26 @@ UML 图见 `docs/uml-exercices-1-a-10.md`。
 
 ## 练习 10
 
-`Animal` 是父类。`Lapin` 增加 `fuir()`，`Loup` 增加 `chasser()`。UML 图见 `docs/uml-exercices-1-a-10.md`。
+`Animal` 是父类。`Lapin` 增加 `fuir()`，`Loup` 增加 `chasser()`。
+
+```mermaid
+classDiagram
+    class Animal {
+        +int x
+        +int y
+        +int energie
+        +int age
+        +int vitesse
+        +se_deplacer(dx, dy)
+        +vieillir()
+        +est_vivant() bool
+    }
+    class Lapin {
+        +fuir()
+    }
+    class Loup {
+        +chasser()
+    }
+    Animal <|-- Lapin
+    Animal <|-- Loup
+```

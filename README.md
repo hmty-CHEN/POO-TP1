@@ -13,9 +13,7 @@ simulation-ecosysteme-poo/
 ├── loup.py
 ├── main.py
 ├── rapport.html
-├── traduction-rapport.md
-└── docs/
-    └── uml-exercices-1-a-10.md
+└── traduction-rapport.md
 ```
 
 | Fichier | Contenu |
@@ -26,7 +24,6 @@ simulation-ecosysteme-poo/
 | `main.py` | Création de plusieurs lapins. |
 | `rapport.html` | Rapport de cours en français. |
 | `traduction-rapport.md` | Traduction chinoise du rapport. |
-| `docs/` | Diagramme UML. |
 
 ## Exécution
 
