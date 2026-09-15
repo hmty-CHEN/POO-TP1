@@ -203,6 +203,8 @@ classDiagram
     Predateur &lt;|-- Loup
     Environnement "1" *-- "0..*" Animal : contient
     Simulation "1" --> "1" Environnement : pilote
+
+    note for Animal "Lecture du diagramme :<br/>1. nom de la classe<br/>2. attributs (donnees) : ex. +int x<br/>3. methodes (parametres) : ex. +fuir(menace)<br/>Signes : + public, * methode abstraite, &lt;&lt;abstract&gt;&gt; classe abstraite"
   </pre>
   <p>Le diagramme fait apparaître l'héritage (<code>Animal</code> → <code>Proie</code> / <code>Predateur</code> → <code>Lapin</code> / <code>Loup</code>), la composition entre <code>Environnement</code> et les animaux, et la classe <code>Simulation</code> qui pilote l'environnement. Les classes abstraites sont indiquées par le stéréotype <code>&lt;&lt;abstract&gt;&gt;</code>.</p>
 
