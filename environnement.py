@@ -13,7 +13,13 @@ class Environnement:
 
     def ajouter(self, animal: Animal) -> None:
         """Ajouter un animal à l'environnement."""
+        self.borner(animal)
         self.animaux.append(animal)
+
+    def borner(self, animal: Animal) -> None:
+        """Garder l'animal à l'intérieur de la grille."""
+        animal.x = max(0, min(self.largeur - 1, animal.x))
+        animal.y = max(0, min(self.hauteur - 1, animal.y))
 
     def supprimer_morts(self) -> None:
         """Retirer les animaux qui ne sont plus vivants."""
@@ -27,6 +33,7 @@ class Environnement:
         """Agir, consommer, vieillir, reproduire, puis retirer les morts."""
         for animal in list(self.animaux):
             animal.agir(self.animaux)
+            self.borner(animal)
             animal.perdre_energie(Animal.COUT_DEPLACEMENT)
             animal.vieillir()
 

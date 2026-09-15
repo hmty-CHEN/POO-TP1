@@ -9,21 +9,23 @@ from lapin import Lapin
 from loup import Loup
 
 
-TAILLE_CASE = 6
+TAILLE_CASE = 8
+LARGEUR_DEFAUT = 60
+HAUTEUR_DEFAUT = 40
+VITESSE_MS = 200
 COULEUR_LAPIN = "#43a047"
 COULEUR_LOUP = "#e53935"
-VITESSE_MS = 200
 
 
 class Application(tk.Tk):
-    """Fenêtre principale : grille, paramètres et statistiques."""
+    """Fenêtre principale : grille, paramètres, actions et statistiques."""
 
     def __init__(self) -> None:
         super().__init__()
         self.title("Simulation d'un écosystème proie-prédateur")
-        self.resizable(False, False)
+        self.minsize(760, 520)
 
-        self.environnement = Environnement(100, 100)
+        self.environnement = Environnement(LARGEUR_DEFAUT, HAUTEUR_DEFAUT)
         self.tour_courant = 0
         self.en_cours = False
 
@@ -31,38 +33,53 @@ class Application(tk.Tk):
         self._initialiser()
 
     def _construire_interface(self) -> None:
-        """Créer la grille, le panneau de paramètres et les statistiques."""
+        """Construire les cadres de la fenêtre."""
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        cadre_grille = ttk.LabelFrame(self, text="Écosystème", padding=8)
+        cadre_grille.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
         self.canevas = tk.Canvas(
-            self,
+            cadre_grille,
             width=self.environnement.largeur * TAILLE_CASE,
             height=self.environnement.hauteur * TAILLE_CASE,
             background="white",
             highlightthickness=1,
             highlightbackground="#bdbdbd",
         )
-        self.canevas.grid(row=0, column=0, padx=12, pady=12)
+        self.canevas.pack()
 
         panneau = ttk.Frame(self)
-        panneau.grid(row=0, column=1, sticky="n", padx=(0, 12), pady=12)
+        panneau.grid(row=0, column=1, sticky="n", padx=(0, 10), pady=10)
 
-        ttk.Label(panneau, text="Paramètres", font=("Arial", 13, "bold")).pack(anchor="w")
-        self.champ_largeur = self._champ(panneau, "Largeur", 100)
-        self.champ_hauteur = self._champ(panneau, "Hauteur", 100)
-        self.champ_lapins = self._champ(panneau, "Lapins", 20)
-        self.champ_loups = self._champ(panneau, "Loups", 5)
-        self.champ_vitesse = self._champ(panneau, "Intervalle (ms)", VITESSE_MS)
+        cadre_parametres = ttk.LabelFrame(panneau, text="Paramètres", padding=8)
+        cadre_parametres.pack(fill="x")
+        self.champ_largeur = self._champ(cadre_parametres, "Largeur", LARGEUR_DEFAUT)
+        self.champ_hauteur = self._champ(cadre_parametres, "Hauteur", HAUTEUR_DEFAUT)
+        self.champ_lapins = self._champ(cadre_parametres, "Lapins", 20)
+        self.champ_loups = self._champ(cadre_parametres, "Loups", 5)
+        self.champ_vitesse = self._champ(cadre_parametres, "Intervalle (ms)", VITESSE_MS)
+        ttk.Button(
+            cadre_parametres, text="Initialiser", command=self._initialiser
+        ).pack(fill="x", pady=(8, 0))
 
-        ttk.Button(panneau, text="Initialiser", command=self._initialiser).pack(fill="x", pady=(8, 2))
-        self.bouton_play = ttk.Button(panneau, text="Démarrer", command=self._basculer)
+        cadre_actions = ttk.LabelFrame(panneau, text="Actions", padding=8)
+        cadre_actions.pack(fill="x", pady=(10, 0))
+        self.bouton_play = ttk.Button(cadre_actions, text="Démarrer", command=self._basculer)
         self.bouton_play.pack(fill="x", pady=2)
-        ttk.Button(panneau, text="Un tour", command=self._un_tour).pack(fill="x", pady=2)
+        ttk.Button(cadre_actions, text="Un tour", command=self._un_tour).pack(fill="x", pady=2)
+        ttk.Button(
+            cadre_actions, text="Ajouter un lapin", command=self._ajouter_lapin
+        ).pack(fill="x", pady=2)
+        ttk.Button(
+            cadre_actions, text="Ajouter un loup", command=self._ajouter_loup
+        ).pack(fill="x", pady=2)
+        ttk.Button(
+            cadre_actions, text="Supprimer les morts", command=self._supprimer_morts
+        ).pack(fill="x", pady=2)
 
-        ttk.Separator(panneau).pack(fill="x", pady=8)
-        ttk.Button(panneau, text="Ajouter un lapin", command=self._ajouter_lapin).pack(fill="x", pady=2)
-        ttk.Button(panneau, text="Ajouter un loup", command=self._ajouter_loup).pack(fill="x", pady=2)
-        ttk.Button(panneau, text="Supprimer les morts", command=self._supprimer_morts).pack(fill="x", pady=2)
-
-        ttk.Separator(panneau).pack(fill="x", pady=8)
+        cadre_statistiques = ttk.LabelFrame(panneau, text="Statistiques", padding=8)
+        cadre_statistiques.pack(fill="x", pady=(10, 0))
         self.etiquettes = {}
         for cle, texte in (
             ("tour", "Tour"),
@@ -70,16 +87,17 @@ class Application(tk.Tk):
             ("predateurs", "Prédateurs"),
             ("total", "Total"),
         ):
-            ligne = ttk.Frame(panneau)
+            ligne = ttk.Frame(cadre_statistiques)
             ligne.pack(fill="x")
             ttk.Label(ligne, text=f"{texte} :", width=12).pack(side="left")
             valeur = ttk.Label(ligne, text="0")
             valeur.pack(side="left")
             self.etiquettes[cle] = valeur
 
-        ttk.Separator(panneau).pack(fill="x", pady=8)
-        self._legende(panneau, COULEUR_LAPIN, "Lapin (proie)")
-        self._legende(panneau, COULEUR_LOUP, "Loup (prédateur)")
+        cadre_legende = ttk.LabelFrame(panneau, text="Légende", padding=8)
+        cadre_legende.pack(fill="x", pady=(10, 0))
+        self._legende(cadre_legende, COULEUR_LAPIN, "Lapin (proie)")
+        self._legende(cadre_legende, COULEUR_LOUP, "Loup (prédateur)")
 
     def _champ(self, parent: ttk.Frame, texte: str, valeur: int) -> ttk.Entry:
         """Créer un champ de saisie étiqueté."""
@@ -113,8 +131,8 @@ class Application(tk.Tk):
         """Relire les paramètres et recréer l'environnement."""
         self.en_cours = False
         self.bouton_play.config(text="Démarrer")
-        largeur = self._lire(self.champ_largeur, 100, 10, 150)
-        hauteur = self._lire(self.champ_hauteur, 100, 10, 150)
+        largeur = self._lire(self.champ_largeur, LARGEUR_DEFAUT, 10, 120)
+        hauteur = self._lire(self.champ_hauteur, HAUTEUR_DEFAUT, 10, 120)
         nombre_lapins = self._lire(self.champ_lapins, 20, 0, 500)
         nombre_loups = self._lire(self.champ_loups, 5, 0, 200)
 
