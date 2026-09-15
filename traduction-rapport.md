@@ -71,7 +71,7 @@ classDiagram
     }
     class Lapin {
         +se_deplacer()
-        +fuir()
+        +fuir(menace)
     }
     class Loup {
         +int RAYON_DETECTION
@@ -126,3 +126,24 @@ AttributeError: can't set attribute
 > 这个功能应当属于 `Animal`、`Environnement`，还是一个独立函数？请论证你的选择。
 
 它属于 `Animal`。距离只取决于两只动物的位置，把它放在 `Animal` 中可以让数据和用到它的行为保持在一起，并且可以直接写 `animal.distance_avec(autre)`，而无需让对象知道环境的存在。
+
+## 兔子的逃跑
+
+### 采用的逃跑逻辑
+
+兔子检查沿坐标轴可达的四个相邻格，选择与威胁之间**距离平方最大**的那一格，然后移动 1 格。这样每移动一格获得最大的距离增量。不使用对角移动，因为对角需要消耗 2 格行走量。
+
+```python
+def fuir(self, menace):
+    meilleur = None
+    meilleure_distance = -1
+    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        distance = (menace.x - (self.x + dx)) ** 2 + (menace.y - (self.y + dy)) ** 2
+        if distance > meilleure_distance:
+            meilleure_distance = distance
+            meilleur = (dx, dy)
+    self.x += meilleur[0]
+    self.y += meilleur[1]
+```
+
+逃跑是局部的：兔子不会预判狼的移动。由于狼每回合前进 2 格而兔子只有 1 格，在开阔地形中狼最终仍会追上。

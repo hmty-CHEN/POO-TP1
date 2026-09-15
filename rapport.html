@@ -73,7 +73,7 @@ classDiagram
     }
     class Lapin {
         +se_deplacer()
-        +fuir()
+        +fuir(menace)
     }
     class Loup {
         +int RAYON_DETECTION
@@ -105,6 +105,21 @@ classDiagram
   <h2>Exercice 17 — Distance</h2>
   <p class="question">Cette fonctionnalité doit-elle appartenir à <code>Animal</code>, à <code>Environnement</code> ou à une fonction indépendante ? Justifiez votre choix.</p>
   <p>Elle appartient à <code>Animal</code>. La distance ne dépend que des positions de deux animaux : la placer dans <code>Animal</code> garde les données et le comportement qui les utilise au même endroit, et permet d'écrire <code>animal.distance_avec(autre)</code> sans que l'objet ait besoin de connaître l'environnement.</p>
+
+  <h2>Fuite du lapin</h2>
+  <p class="question">Logique retenue pour le déplacement de fuite.</p>
+  <p>Le lapin examine les quatre cases voisines accessibles le long des axes. Il choisit celle qui maximise la distance au carré avec la menace, puis s'y déplace d'une case. Cette règle offre le plus grand gain de distance par case déplacée. Le déplacement diagonal n'est pas utilisé : il coûterait deux cases.</p>
+  <pre class="example">def fuir(self, menace):
+    meilleur = None
+    meilleure_distance = -1
+    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        distance = (menace.x - (self.x + dx)) ** 2 + (menace.y - (self.y + dy)) ** 2
+        if distance > meilleure_distance:
+            meilleure_distance = distance
+            meilleur = (dx, dy)
+    self.x += meilleur[0]
+    self.y += meilleur[1]</pre>
+  <p>La fuite reste locale : le lapin ne prévoit pas le déplacement du loup. Comme le loup avance de deux cases par tour contre une pour le lapin, il finit par le rattraper en terrain ouvert.</p>
 
   <footer>TP de programmation orientée objet — Python 3</footer>
 

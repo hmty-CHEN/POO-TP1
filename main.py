@@ -1,4 +1,4 @@
-"""Démonstration de la chasse."""
+"""Démonstration de la fuite et de la chasse."""
 
 from lapin import Lapin
 from loup import Loup
@@ -8,12 +8,13 @@ loup = Loup(0, 0)
 lapin = Lapin(8, 0)
 animaux = [loup, lapin]
 
-for tour in range(8):
+for tour in range(10):
+    if lapin.est_vivant():
+        lapin.fuir(loup)
     proies = loup.rechercher_proies(animaux)
     if proies:
-        cible = proies[0]
-        loup.se_deplacer_vers(cible)
-        loup.chasser(cible)
+        loup.se_deplacer_vers(proies[0])
+        loup.chasser(proies[0])
     print(
         f"Tour {tour} : loup=({loup.x},{loup.y}) "
         f"lapin=({lapin.x},{lapin.y}) vivant={lapin.est_vivant()} "
