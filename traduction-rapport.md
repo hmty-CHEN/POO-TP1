@@ -167,7 +167,7 @@ def fuir(self, menace):
 
 ```mermaid
 classDiagram
-    direction TB
+    direction LR
 
     class Animal {
         <<abstract>>
