@@ -25,6 +25,11 @@ class Environnement:
         """Retirer les animaux qui ne sont plus vivants."""
         self.animaux = [animal for animal in self.animaux if animal.est_vivant()]
 
+    def retirer(self, animal: Animal) -> None:
+        """Retirer un animal donné de l'environnement."""
+        if animal in self.animaux:
+            self.animaux.remove(animal)
+
     def compter(self, espece: type) -> int:
         """Compter les animaux vivants d'une espèce."""
         return sum(isinstance(animal, espece) for animal in self.animaux)

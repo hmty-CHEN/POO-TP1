@@ -206,6 +206,7 @@ classDiagram
         +list animaux
         +ajouter(animal)
         +borner(animal)
+        +retirer(animal)
         +supprimer_morts()
         +compter(espece) int
         +simuler_un_tour()
@@ -272,7 +273,7 @@ Les huit tests passent.
 
 > Défi facultatif — créer une interface graphique simple.
 
-Le fichier `visualisation.py` ouvre une fenêtre indépendante qui affiche la grille : un point vert par lapin, un point rouge par loup. Le panneau latéral permet de régler la largeur et la hauteur de la grille, le nombre initial de lapins et de loups, ainsi que l'intervalle entre deux tours. Il permet aussi d'initialiser, démarrer, mettre en pause, avancer d'un tour et supprimer les animaux morts. Pour ajouter un animal, on choisit « Lapin » ou « Loup » puis on clique sur la case voulue. Les compteurs (tour, proies, prédateurs, total) sont mis à jour à chaque tour, et la simulation s'arrête automatiquement lorsqu'il ne reste plus aucune proie.
+Le fichier `visualisation.py` ouvre une fenêtre indépendante qui affiche la grille : un point vert par lapin, un point rouge par loup. Le panneau latéral permet de régler la largeur et la hauteur de la grille, le nombre initial de lapins et de loups, ainsi que l'intervalle entre deux tours. Il permet aussi d'initialiser, démarrer, mettre en pause, avancer d'un tour et supprimer les animaux morts. Pour ajouter un animal, on choisit « Lapin » ou « Loup » puis on clique sur la case voulue ; pour en supprimer un, on choisit « Supprimer un animal » puis on clique sur l'animal. Les compteurs (tour, proies, prédateurs, total) sont mis à jour à chaque tour, et la simulation s'arrête automatiquement lorsqu'il ne reste plus aucune proie.
 
 ```bash
 python visualisation.py

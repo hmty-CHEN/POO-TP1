@@ -79,7 +79,7 @@ class Application(tk.Tk):
             cadre_actions, text="Supprimer les morts", command=self._supprimer_morts
         ).pack(fill="x", pady=2)
 
-        cadre_ajout = ttk.LabelFrame(panneau, text="Ajouter par clic sur la grille", padding=8)
+        cadre_ajout = ttk.LabelFrame(panneau, text="Outil de clic (grille)", padding=8)
         cadre_ajout.pack(fill="x", pady=(10, 0))
         ttk.Radiobutton(
             cadre_ajout, text="Aucun", value="aucun", variable=self.outil
@@ -89,6 +89,9 @@ class Application(tk.Tk):
         ).pack(anchor="w")
         ttk.Radiobutton(
             cadre_ajout, text="Loup (prédateur)", value="loup", variable=self.outil
+        ).pack(anchor="w")
+        ttk.Radiobutton(
+            cadre_ajout, text="Supprimer un animal", value="supprimer", variable=self.outil
         ).pack(anchor="w")
 
         cadre_statistiques = ttk.LabelFrame(panneau, text="Statistiques", padding=8)
@@ -209,22 +212,40 @@ class Application(tk.Tk):
         self.etiquette_etat.config(text="Terminé : plus de proies")
 
     def _clic(self, evenement: tk.Event) -> None:
-        """Ajouter l'animal choisi à la case cliquée."""
+        """Ajouter l'animal choisi ou supprimer l'animal cliqué."""
         outil = self.outil.get()
         if outil == "aucun":
             return
-        largeur = self.environnement.largeur
-        hauteur = self.environnement.hauteur
-        x = min(largeur - 1, max(0, evenement.x // self.taille_case))
-        y = min(hauteur - 1, max(0, evenement.y // self.taille_case))
-        if outil == "lapin":
-            self.environnement.ajouter(Lapin(x, y))
-            self.termine = False
-            self.etiquette_etat.config(text="Prêt")
+        if outil == "supprimer":
+            animal = self._animal_sous(evenement)
+            if animal is not None:
+                self.environnement.retirer(animal)
         else:
-            self.environnement.ajouter(Loup(x, y))
+            largeur = self.environnement.largeur
+            hauteur = self.environnement.hauteur
+            x = min(largeur - 1, max(0, evenement.x // self.taille_case))
+            y = min(hauteur - 1, max(0, evenement.y // self.taille_case))
+            if outil == "lapin":
+                self.environnement.ajouter(Lapin(x, y))
+                self.termine = False
+                self.etiquette_etat.config(text="Prêt")
+            else:
+                self.environnement.ajouter(Loup(x, y))
         self._dessiner()
         self._mettre_a_jour_statistiques()
+
+    def _animal_sous(self, evenement: tk.Event):
+        """Renvoyer l'animal le plus proche du clic, dans la limite d'une case."""
+        meilleur = None
+        meilleure_distance = self.taille_case ** 2
+        for animal in self.environnement.animaux:
+            centre_x = animal.x * self.taille_case + self.taille_case / 2
+            centre_y = animal.y * self.taille_case + self.taille_case / 2
+            distance = (centre_x - evenement.x) ** 2 + (centre_y - evenement.y) ** 2
+            if distance <= meilleure_distance:
+                meilleure_distance = distance
+                meilleur = animal
+        return meilleur
 
     def _supprimer_morts(self) -> None:
         """Retirer de la grille les animaux qui ne sont plus vivants."""
