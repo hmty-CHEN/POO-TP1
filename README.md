@@ -15,6 +15,7 @@ simulation-ecosysteme-poo/
 ├── loup.py
 ├── environnement.py
 ├── simulation.py
+├── visualisation.py
 ├── main.py
 ├── test_animal.py
 ├── test_environnement.py
@@ -31,6 +32,7 @@ simulation-ecosysteme-poo/
 | `loup.py` | Classe `Loup`, hérite de `Predateur`. |
 | `environnement.py` | Classe `Environnement` (composition, tours, statistiques). |
 | `simulation.py` | Classe `Simulation` (populations, tours, affichage). |
+| `visualisation.py` | Interface graphique tkinter (grille, paramètres, statistiques). |
 | `main.py` | Point d'entrée : lance la simulation. |
 | `test_animal.py` | Tests unitaires des animaux. |
 | `test_environnement.py` | Tests unitaires de l'environnement. |
@@ -41,6 +43,7 @@ simulation-ecosysteme-poo/
 
 ```bash
 python main.py
+python visualisation.py
 ```
 
 ## Tests

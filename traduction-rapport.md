@@ -236,15 +236,31 @@ classDiagram
         +afficher_statistiques(tour)
     }
 
+    class Application {
+        +Environnement environnement
+        +int tour_courant
+        +bool en_cours
+        +initialiser()
+        +basculer()
+        +un_tour()
+        +ajouter_lapin()
+        +ajouter_loup()
+        +supprimer_morts()
+        +dessiner()
+    }
+
     Animal <|-- Proie
     Animal <|-- Predateur
     Proie <|-- Lapin
     Predateur <|-- Loup
     Environnement "1" *-- "0..*" Animal : contient
     Simulation "1" --> "1" Environnement : pilote
+    Application --> Environnement : pilote
+    Application ..> Lapin : crée
+    Application ..> Loup : crée
 ```
 
-图中体现了继承（`Animal` → `Proie` / `Predateur` → `Lapin` / `Loup`）、`Environnement` 与动物之间的组合关系，以及驱动环境的 `Simulation`。抽象类用构造型 `<<abstract>>` 标出。
+图中体现了继承（`Animal` → `Proie` / `Predateur` → `Lapin` / `Loup`）、`Environnement` 与动物之间的组合关系，以及驱动环境的 `Simulation` 与提供图形界面的 `Application`。抽象类用构造型 `<<abstract>>` 标出。
 
 ## 整合 9：单元测试
 
@@ -267,3 +283,13 @@ python -m unittest
 ```
 
 八个测试全部通过。
+
+## 图形可视化（tkinter）
+
+### 可选挑战 — 创建一个简单的图形界面
+
+`visualisation.py` 会打开一个独立窗口，显示网格：每个兔子一个绿点，每只狼一个红点。右侧面板可以设置网格宽度、高度、兔子和狼的初始数量，以及每回合之间的时间间隔；还可以初始化、启动、暂停、推进一个回合、添加兔子或狼、删除死亡动物。计数（回合、猎物、捕食者、总数）每回合更新。
+
+```bash
+python visualisation.py
+```

@@ -197,14 +197,30 @@ classDiagram
         +afficher_statistiques(tour)
     }
 
+    class Application {
+        +Environnement environnement
+        +int tour_courant
+        +bool en_cours
+        +initialiser()
+        +basculer()
+        +un_tour()
+        +ajouter_lapin()
+        +ajouter_loup()
+        +supprimer_morts()
+        +dessiner()
+    }
+
     Animal &lt;|-- Proie
     Animal &lt;|-- Predateur
     Proie &lt;|-- Lapin
     Predateur &lt;|-- Loup
     Environnement "1" *-- "0..*" Animal : contient
     Simulation "1" --> "1" Environnement : pilote
+    Application --> Environnement : pilote
+    Application ..> Lapin : crée
+    Application ..> Loup : crée
   </pre>
-  <p>Le diagramme fait apparaître l'héritage (<code>Animal</code> → <code>Proie</code> / <code>Predateur</code> → <code>Lapin</code> / <code>Loup</code>), la composition entre <code>Environnement</code> et les animaux, et la classe <code>Simulation</code> qui pilote l'environnement. Les classes abstraites sont indiquées par le stéréotype <code>&lt;&lt;abstract&gt;&gt;</code>.</p>
+  <p>Le diagramme fait apparaître l'héritage (<code>Animal</code> → <code>Proie</code> / <code>Predateur</code> → <code>Lapin</code> / <code>Loup</code>), la composition entre <code>Environnement</code> et les animaux, ainsi que <code>Simulation</code> et <code>Application</code> qui pilotent l'environnement. Les classes abstraites sont indiquées par le stéréotype <code>&lt;&lt;abstract&gt;&gt;</code>.</p>
 
   <h2>Exercice final 9 — Tests unitaires</h2>
   <p class="question">Créez au minimum les tests demandés et lancez-les avec unittest.</p>
@@ -220,6 +236,11 @@ classDiagram
   <p>Les tests sont regroupés dans <code>test_animal.py</code> et <code>test_environnement.py</code>, puis lancés avec :</p>
   <pre class="example">python -m unittest</pre>
   <p>Les huit tests passent.</p>
+
+  <h2>Visualisation graphique (tkinter)</h2>
+  <p class="question">Défi facultatif — créer une interface graphique simple.</p>
+  <p>Le fichier <code>visualisation.py</code> ouvre une fenêtre indépendante qui affiche la grille : un point vert par lapin, un point rouge par loup. Le panneau latéral permet de régler la largeur et la hauteur de la grille, le nombre initial de lapins et de loups, ainsi que l'intervalle entre deux tours. Il permet aussi d'initialiser, démarrer, mettre en pause, avancer d'un tour, ajouter un lapin ou un loup, et supprimer les animaux morts. Les compteurs (tour, proies, prédateurs, total) sont mis à jour à chaque tour.</p>
+  <pre class="example">python visualisation.py</pre>
 
   <footer>TP de programmation orientée objet — Python 3</footer>
 
