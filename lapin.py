@@ -8,6 +8,8 @@ from animal import Animal
 class Lapin(Animal):
     """Représenter un lapin."""
 
+    RAYON_DETECTION = 4
+
     def se_deplacer(self) -> None:
         """Déplacer le lapin d'une case le long d'un axe."""
         for _ in range(self.vitesse):
@@ -16,8 +18,14 @@ class Lapin(Animal):
             else:
                 self.y += random.choice([-1, 1])
 
+    def detecter(self, menace: Animal) -> bool:
+        """Indiquer si la menace est dans le rayon de détection."""
+        return self.distance_avec(menace) <= self.RAYON_DETECTION
+
     def fuir(self, menace: Animal) -> None:
-        """Se déplacer d'une case sur l'axe qui éloigne le plus de la menace."""
+        """Se déplacer d'une case sur l'axe qui éloigne le plus de la menace détectée."""
+        if not self.detecter(menace):
+            return
         meilleur = None
         meilleure_distance = -1
         for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
@@ -34,5 +42,6 @@ if __name__ == "__main__":
 
     lapin = Lapin(0, 0)
     loup = Loup(3, 0)
+    print(lapin.detecter(loup))
     lapin.fuir(loup)
     print(lapin.x, lapin.y)
