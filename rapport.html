@@ -61,20 +61,27 @@ classDiagram
         &lt;&lt;abstract&gt;&gt;
         +int x
         +int y
-        +int energie
         +int age
         +int vitesse
+        +energie int
         +se_deplacer()*
         +vieillir()
+        +perdre_energie(quantite)
+        +gagner_energie(quantite)
         +est_vivant() bool
+        +distance_avec(autre) float
     }
     class Lapin {
         +se_deplacer()
         +fuir()
     }
     class Loup {
+        +int RAYON_DETECTION
+        +int GAIN_CHASSE
         +se_deplacer()
-        +chasser()
+        +rechercher_proies(animaux) list
+        +se_deplacer_vers(cible)
+        +chasser(proie)
     }
     Animal &lt;|-- Lapin
     Animal &lt;|-- Loup
@@ -89,6 +96,15 @@ classDiagram
   <p>L'instruction déclenche une erreur :</p>
   <pre class="example">TypeError: Can't instantiate abstract class Animal with abstract method se_deplacer</pre>
   <p><code>Animal</code> contient une méthode abstraite <code>se_deplacer()</code>, donc la classe est abstraite. Python interdit de créer directement un objet <code>Animal</code> : seules les classes concrètes <code>Lapin</code> et <code>Loup</code>, qui implémentent cette méthode, peuvent être instanciées.</p>
+
+  <h2>Exercice 15 — Encapsuler l'énergie</h2>
+  <p class="question">Réfléchissez à la manière de garantir que l'énergie ne devienne pas incohérente.</p>
+  <p>L'énergie est stockée dans un attribut protégé <code>_energie</code> et n'est accessible qu'en lecture par la propriété <code>energie</code>. Elle ne peut être modifiée que par les méthodes de l'objet. La méthode <code>perdre_energie()</code> utilise <code>max(0, ...)</code> pour empêcher toute valeur négative. Toute modification directe, comme <code>lapin.energie = -500</code>, est refusée :</p>
+  <pre class="example">AttributeError: can't set attribute</pre>
+
+  <h2>Exercice 17 — Distance</h2>
+  <p class="question">Cette fonctionnalité doit-elle appartenir à <code>Animal</code>, à <code>Environnement</code> ou à une fonction indépendante ? Justifiez votre choix.</p>
+  <p>Elle appartient à <code>Animal</code>. La distance ne dépend que des positions de deux animaux : la placer dans <code>Animal</code> garde les données et le comportement qui les utilise au même endroit, et permet d'écrire <code>animal.distance_avec(autre)</code> sans que l'objet ait besoin de connaître l'environnement.</p>
 
   <footer>TP de programmation orientée objet — Python 3</footer>
 

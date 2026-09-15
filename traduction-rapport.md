@@ -59,20 +59,27 @@ classDiagram
         <<abstract>>
         +int x
         +int y
-        +int energie
         +int age
         +int vitesse
+        +energie int
         +se_deplacer()*
         +vieillir()
+        +perdre_energie(quantite)
+        +gagner_energie(quantite)
         +est_vivant() bool
+        +distance_avec(autre) float
     }
     class Lapin {
         +se_deplacer()
         +fuir()
     }
     class Loup {
+        +int RAYON_DETECTION
+        +int GAIN_CHASSE
         +se_deplacer()
-        +chasser()
+        +rechercher_proies(animaux) list
+        +se_deplacer_vers(cible)
+        +chasser(proie)
     }
     Animal <|-- Lapin
     Animal <|-- Loup
@@ -99,3 +106,23 @@ TypeError: Can't instantiate abstract class Animal with abstract method se_depla
 ```
 
 `Animal` 含有抽象方法 `se_deplacer()`，因此它是抽象类。Python 不允许直接创建 `Animal` 对象，只有实现了该方法的 `Lapin` 和 `Loup` 这些具体类才能被实例化。
+
+## 练习 15：封装能量
+
+### 问题
+
+> 思考如何保证能量不会变得不一致。
+
+能量保存在受保护属性 `_energie` 中，只能通过只读属性 `energie` 读取，并且只能由对象自己的方法修改。`perdre_energie()` 使用 `max(0, ...)`，因此能量不会变成负数。像 `lapin.energie = -500` 这样的直接修改会被拒绝：
+
+```text
+AttributeError: can't set attribute
+```
+
+## 练习 17：距离
+
+### 设计问题
+
+> 这个功能应当属于 `Animal`、`Environnement`，还是一个独立函数？请论证你的选择。
+
+它属于 `Animal`。距离只取决于两只动物的位置，把它放在 `Animal` 中可以让数据和用到它的行为保持在一起，并且可以直接写 `animal.distance_avec(autre)`，而无需让对象知道环境的存在。

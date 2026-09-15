@@ -1,16 +1,21 @@
-"""Démonstration du polymorphisme."""
+"""Démonstration de la chasse."""
 
 from lapin import Lapin
 from loup import Loup
 
 
-animaux = [
-    Lapin(10, 10),
-    Loup(20, 20),
-    Lapin(30, 30),
-    Loup(40, 40),
-]
+loup = Loup(0, 0)
+lapin = Lapin(5, 0)
+animaux = [loup, lapin]
 
-for animal in animaux:
-    animal.se_deplacer()
-    print(type(animal).__name__, animal.x, animal.y)
+for tour in range(6):
+    proies = loup.rechercher_proies(animaux)
+    if proies:
+        cible = proies[0]
+        loup.se_deplacer_vers(cible)
+        loup.chasser(cible)
+    print(
+        f"Tour {tour} : loup=({loup.x},{loup.y}) "
+        f"lapin=({lapin.x},{lapin.y}) vivant={lapin.est_vivant()} "
+        f"energie_loup={loup.energie}"
+    )

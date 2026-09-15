@@ -21,5 +21,6 @@ class Lapin(Animal):
 if __name__ == "__main__":
     lapin = Lapin(10, 20)
     lapin.se_deplacer()
-    print(lapin.x, lapin.y)
+    lapin.vieillir()
+    print(lapin.x, lapin.y, lapin.age, lapin.energie)
     lapin.fuir()
