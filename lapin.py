@@ -9,26 +9,24 @@ class Lapin(Animal):
     """Représenter un lapin."""
 
     def se_deplacer(self) -> None:
-        """Déplacer le lapin d'une case dans une direction aléatoire."""
-        self.x += random.choice([-1, 1])
-        self.y += random.choice([-1, 1])
+        """Déplacer le lapin d'une case le long d'un axe."""
+        for _ in range(self.vitesse):
+            if random.choice([True, False]):
+                self.x += random.choice([-1, 1])
+            else:
+                self.y += random.choice([-1, 1])
 
     def fuir(self, menace: Animal) -> None:
-        """Se déplacer d'une case vers la position qui éloigne le plus de la menace."""
-        meilleur_dx = 0
-        meilleur_dy = 0
+        """Se déplacer d'une case sur l'axe qui éloigne le plus de la menace."""
+        meilleur = None
         meilleure_distance = -1
-        for dx in (-1, 0, 1):
-            for dy in (-1, 0, 1):
-                if dx == 0 and dy == 0:
-                    continue
-                distance = (menace.x - (self.x + dx)) ** 2 + (menace.y - (self.y + dy)) ** 2
-                if distance > meilleure_distance:
-                    meilleure_distance = distance
-                    meilleur_dx = dx
-                    meilleur_dy = dy
-        self.x += meilleur_dx
-        self.y += meilleur_dy
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            distance = (menace.x - (self.x + dx)) ** 2 + (menace.y - (self.y + dy)) ** 2
+            if distance > meilleure_distance:
+                meilleure_distance = distance
+                meilleur = (dx, dy)
+        self.x += meilleur[0]
+        self.y += meilleur[1]
 
 
 if __name__ == "__main__":

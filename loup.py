@@ -12,10 +12,17 @@ class Loup(Animal):
     RAYON_DETECTION = 10
     GAIN_CHASSE = 20
 
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x, y)
+        self.vitesse = 2
+
     def se_deplacer(self) -> None:
-        """Déplacer le loup de deux cases dans une direction aléatoire."""
-        self.x += 2 * random.choice([-1, 1])
-        self.y += 2 * random.choice([-1, 1])
+        """Déplacer le loup de deux cases le long des axes."""
+        for _ in range(self.vitesse):
+            if random.choice([True, False]):
+                self.x += random.choice([-1, 1])
+            else:
+                self.y += random.choice([-1, 1])
 
     def rechercher_proies(self, animaux: list) -> list:
         """Renvoyer les lapins vivants détectés dans le rayon de détection."""
@@ -28,16 +35,14 @@ class Loup(Animal):
         ]
 
     def se_deplacer_vers(self, cible: Animal) -> None:
-        """Se déplacer de deux cases vers une cible."""
-        for _ in range(2):
-            if self.x < cible.x:
-                self.x += 1
-            elif self.x > cible.x:
-                self.x -= 1
-            elif self.y < cible.y:
-                self.y += 1
-            elif self.y > cible.y:
-                self.y -= 1
+        """Se déplacer vers la cible, une case par étape, en suivant les axes."""
+        for _ in range(self.vitesse):
+            dx = cible.x - self.x
+            dy = cible.y - self.y
+            if abs(dx) >= abs(dy) and dx != 0:
+                self.x += 1 if dx > 0 else -1
+            elif dy != 0:
+                self.y += 1 if dy > 0 else -1
 
     def chasser(self, proie: Animal) -> None:
         """Attaquer une proie située à la même position."""
