@@ -2,6 +2,8 @@
 
 Rapport de TP — Programmation orientée objet en Python.
 
+> **Remarque :** ce rapport a été rédigé en parallèle de la réalisation des exercices. Certaines parties ont été modifiées lors des exercices suivants ; il peut donc être incomplet ou ne pas correspondre exactement au code final.
+
 ---
 
 ## Exercice 1 — Identifier les caractéristiques d'un lapin
