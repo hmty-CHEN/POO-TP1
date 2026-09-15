@@ -9,9 +9,8 @@ from lapin import Lapin
 from loup import Loup
 
 
-TAILLE_CASE = 8
-LARGEUR_DEFAUT = 60
-HAUTEUR_DEFAUT = 40
+TAILLE_MAX = 700
+COTE_DEFAUT = 64
 VITESSE_MS = 200
 COULEUR_LAPIN = "#43a047"
 COULEUR_LOUP = "#e53935"
@@ -23,14 +22,19 @@ class Application(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         self.title("Simulation d'un écosystème proie-prédateur")
-        self.minsize(760, 520)
 
-        self.environnement = Environnement(LARGEUR_DEFAUT, HAUTEUR_DEFAUT)
+        self.environnement = Environnement(COTE_DEFAUT, COTE_DEFAUT)
+        self.taille_case = self._calculer_taille_case(COTE_DEFAUT, COTE_DEFAUT)
         self.tour_courant = 0
         self.en_cours = False
 
         self._construire_interface()
         self._initialiser()
+
+    @staticmethod
+    def _calculer_taille_case(largeur: int, hauteur: int) -> int:
+        """Choisir la taille d'une case pour occuper une grande zone carrée."""
+        return max(3, TAILLE_MAX // max(largeur, hauteur))
 
     def _construire_interface(self) -> None:
         """Construire les cadres de la fenêtre."""
@@ -41,21 +45,21 @@ class Application(tk.Tk):
         cadre_grille.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
         self.canevas = tk.Canvas(
             cadre_grille,
-            width=self.environnement.largeur * TAILLE_CASE,
-            height=self.environnement.hauteur * TAILLE_CASE,
+            width=self.environnement.largeur * self.taille_case,
+            height=self.environnement.hauteur * self.taille_case,
             background="white",
             highlightthickness=1,
             highlightbackground="#bdbdbd",
         )
-        self.canevas.pack()
+        self.canevas.pack(fill="both", expand=True)
 
         panneau = ttk.Frame(self)
         panneau.grid(row=0, column=1, sticky="n", padx=(0, 10), pady=10)
 
         cadre_parametres = ttk.LabelFrame(panneau, text="Paramètres", padding=8)
         cadre_parametres.pack(fill="x")
-        self.champ_largeur = self._champ(cadre_parametres, "Largeur", LARGEUR_DEFAUT)
-        self.champ_hauteur = self._champ(cadre_parametres, "Hauteur", HAUTEUR_DEFAUT)
+        self.champ_largeur = self._champ(cadre_parametres, "Largeur", COTE_DEFAUT)
+        self.champ_hauteur = self._champ(cadre_parametres, "Hauteur", COTE_DEFAUT)
         self.champ_lapins = self._champ(cadre_parametres, "Lapins", 20)
         self.champ_loups = self._champ(cadre_parametres, "Loups", 5)
         self.champ_vitesse = self._champ(cadre_parametres, "Intervalle (ms)", VITESSE_MS)
@@ -131,11 +135,12 @@ class Application(tk.Tk):
         """Relire les paramètres et recréer l'environnement."""
         self.en_cours = False
         self.bouton_play.config(text="Démarrer")
-        largeur = self._lire(self.champ_largeur, LARGEUR_DEFAUT, 10, 120)
-        hauteur = self._lire(self.champ_hauteur, HAUTEUR_DEFAUT, 10, 120)
+        largeur = self._lire(self.champ_largeur, COTE_DEFAUT, 10, 120)
+        hauteur = self._lire(self.champ_hauteur, COTE_DEFAUT, 10, 120)
         nombre_lapins = self._lire(self.champ_lapins, 20, 0, 500)
         nombre_loups = self._lire(self.champ_loups, 5, 0, 200)
 
+        self.taille_case = self._calculer_taille_case(largeur, hauteur)
         self.environnement = Environnement(largeur, hauteur)
         for _ in range(nombre_lapins):
             self.environnement.ajouter(Lapin(random.randrange(largeur), random.randrange(hauteur)))
@@ -143,7 +148,7 @@ class Application(tk.Tk):
             self.environnement.ajouter(Loup(random.randrange(largeur), random.randrange(hauteur)))
 
         self.tour_courant = 0
-        self.canevas.config(width=largeur * TAILLE_CASE, height=hauteur * TAILLE_CASE)
+        self.canevas.config(width=largeur * self.taille_case, height=hauteur * self.taille_case)
         self._dessiner()
         self._mettre_a_jour_statistiques()
 
@@ -199,10 +204,16 @@ class Application(tk.Tk):
         self.canevas.delete("animal")
         for animal in self.environnement.animaux:
             couleur = COULEUR_LOUP if animal.EST_PREDATEUR else COULEUR_LAPIN
-            x = animal.x * TAILLE_CASE
-            y = animal.y * TAILLE_CASE
+            x = animal.x * self.taille_case
+            y = animal.y * self.taille_case
             self.canevas.create_oval(
-                x, y, x + TAILLE_CASE, y + TAILLE_CASE, fill=couleur, outline="", tags="animal"
+                x,
+                y,
+                x + self.taille_case,
+                y + self.taille_case,
+                fill=couleur,
+                outline="",
+                tags="animal",
             )
 
     def _mettre_a_jour_statistiques(self) -> None:
