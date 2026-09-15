@@ -44,7 +44,7 @@ simulation-ecosysteme-poo/
 
 | Fichier | Responsabilité |
 | --- | --- |
-| `lapin.py` | Classe `Lapin` et ses tests unitaires intégrés. |
+| `lapin.py` | Classe `Lapin` et quelques appels de vérification. |
 | `main.py` | Création de cinq lapins et manipulation de la liste. |
 | `rapport.html` | Rapport de cours en français. |
 | `traduction-rapport.md` | Traduction chinoise du rapport. |
@@ -65,7 +65,7 @@ simulation-ecosysteme-poo/
 python main.py
 ```
 
-## Tests
+## Vérification
 
 ```bash
 python lapin.py
@@ -73,8 +73,7 @@ python lapin.py
 
 ---
 
-Les tests sont actuellement placés dans `lapin.py` pour rester simples et
-suivre la consigne de l'étape actuelle.
+Les appels de vérification sont placés dans `lapin.py`.
 
 ---
 

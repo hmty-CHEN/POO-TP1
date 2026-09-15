@@ -1,4 +1,4 @@
-"""Exemples des exercices 1 à 6."""
+"""Point d'entrée du programme."""
 
 from lapin import Lapin
 
