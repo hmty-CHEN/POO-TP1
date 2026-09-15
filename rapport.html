@@ -206,6 +206,21 @@ classDiagram
   </pre>
   <p>Le diagramme fait apparaître l'héritage (<code>Animal</code> → <code>Proie</code> / <code>Predateur</code> → <code>Lapin</code> / <code>Loup</code>), la composition entre <code>Environnement</code> et les animaux, et la classe <code>Simulation</code> qui pilote l'environnement. Les classes abstraites sont indiquées par le stéréotype <code>&lt;&lt;abstract&gt;&gt;</code>.</p>
 
+  <h2>Exercice final 9 — Tests unitaires</h2>
+  <p class="question">Créez au minimum les tests demandés et lancez-les avec unittest.</p>
+  <ul>
+    <li>Test 1 — Création : âge = 0 et énergie = 100.</li>
+    <li>Test 2 — Vieillissement : après un tour, l'âge augmente et l'énergie diminue.</li>
+    <li>Test 3 — Mort : un animal à 0 énergie est mort.</li>
+    <li>Test 4 — Déplacement : les coordonnées changent d'une case.</li>
+    <li>Test 5 — Chasse : le lapin meurt et le loup gagne de l'énergie.</li>
+    <li>Test 6 — Environnement : le nombre d'animaux ajoutés est correct.</li>
+    <li>Test 7 — Suppression : un animal mort est retiré.</li>
+  </ul>
+  <p>Les tests sont regroupés dans <code>test_animal.py</code> et <code>test_environnement.py</code>, puis lancés avec :</p>
+  <pre class="example">python -m unittest</pre>
+  <p>Les huit tests passent.</p>
+
   <footer>TP de programmation orientée objet — Python 3</footer>
 
   <script type="module">

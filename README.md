@@ -16,6 +16,8 @@ simulation-ecosysteme-poo/
 ├── environnement.py
 ├── simulation.py
 ├── main.py
+├── test_animal.py
+├── test_environnement.py
 ├── rapport.html
 └── traduction-rapport.md
 ```
@@ -30,6 +32,8 @@ simulation-ecosysteme-poo/
 | `environnement.py` | Classe `Environnement` (composition, tours, statistiques). |
 | `simulation.py` | Classe `Simulation` (populations, tours, affichage). |
 | `main.py` | Point d'entrée : lance la simulation. |
+| `test_animal.py` | Tests unitaires des animaux. |
+| `test_environnement.py` | Tests unitaires de l'environnement. |
 | `rapport.html` | Rapport de cours en français. |
 | `traduction-rapport.md` | Traduction chinoise du rapport. |
 
@@ -37,6 +41,12 @@ simulation-ecosysteme-poo/
 
 ```bash
 python main.py
+```
+
+## Tests
+
+```bash
+python -m unittest
 ```
 
 ## Organisation du travail
