@@ -242,8 +242,6 @@ classDiagram
     Predateur <|-- Loup
     Environnement "1" *-- "0..*" Animal : contient
     Simulation "1" --> "1" Environnement : pilote
-
-    note for Animal "Lecture du diagramme :<br/>1. nom de la classe<br/>2. attributs (donnees) : ex. +int x<br/>3. methodes (parametres) : ex. +fuir(menace)<br/>Signes : + public, * methode abstraite, <<abstract>> classe abstraite"
 ```
 
 图中体现了继承（`Animal` → `Proie` / `Predateur` → `Lapin` / `Loup`）、`Environnement` 与动物之间的组合关系，以及驱动环境的 `Simulation`。抽象类用构造型 `<<abstract>>` 标出。
