@@ -1,46 +1,31 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <title>Rapport — Réponses aux questions</title>
-  <style>
-    body { max-width: 820px; margin: 40px auto; font: 16px/1.6 Arial, sans-serif; color: #222; }
-    h1, h2, h3 { color: #17365d; }
-    code { background: #f3f3f3; padding: 1px 4px; }
-    .mermaid { background: #fafafa; border: 1px solid #eee; padding: 12px; }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TP POO — Écosystème proie-prédateur</title>
+<style>
+:root{--bleu:#183b56;--bleu2:#2f6690;--clair:#f4f7fa;--or:#d99a2b;--texte:#263238}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#eaf2f8,#fff 55%);color:var(--texte);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.page{max-width:920px;margin:0 auto;padding:34px 24px 70px}.cover{background:linear-gradient(135deg,var(--bleu),var(--bleu2));color:white;border-radius:22px;padding:58px 48px;margin-bottom:34px;box-shadow:0 14px 35px #183b5630}.cover h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.15;margin:12px 0}.tag{display:inline-block;border:1px solid #ffffff66;border-radius:99px;padding:4px 14px;font-size:.85rem}.meta{color:#dcecf7;margin-top:20px}.intro{background:white;border-left:5px solid var(--or);padding:16px 20px;border-radius:0 12px 12px 0;margin-bottom:32px}section{background:white;border-radius:16px;padding:28px 30px;margin:22px 0;box-shadow:0 5px 18px #183b5612}h2{color:var(--bleu);border-bottom:2px solid #e2edf4;padding-bottom:8px;margin-top:0}h3{color:var(--bleu2);margin-bottom:4px}.question{background:var(--clair);border-radius:10px;padding:13px 17px;margin:10px 0 13px;font-style:italic}.answer{padding-left:17px;border-left:3px solid var(--or)}code{background:#edf2f5;color:#a04418;padding:2px 6px;border-radius:5px}.mermaid{background:#fbfcfd;border:1px solid #dce7ee;border-radius:10px;padding:15px;overflow:auto}footer{text-align:center;color:#607d8b;margin-top:35px;font-size:.9rem}@media(max-width:600px){.cover{padding:38px 26px}section{padding:22px 19px}}
+</style>
 </head>
-<body>
-  <h1>Simulation d'un écosystème proie-prédateur</h1>
-  <p><strong>Rapport de TP — réponses aux questions</strong></p>
-
-  <h2>Exercice 1</h2>
-  <h3>Question 1</h3>
-  <p>Les attributs sont <code>x</code>, <code>y</code>, <code>energie</code>, <code>age</code> et <code>vitesse</code>.</p>
-  <h3>Question 2</h3>
-  <p>Les méthodes proposées sont <code>se_deplacer(dx, dy)</code>, <code>vieillir()</code> et <code>est_vivant()</code>.</p>
-  <h3>Question 3</h3>
-  <pre class="mermaid">
-classDiagram
+<body><div class="page">
+<header class="cover"><span class="tag">Programmation orientée objet · Python</span><h1>Simulation d'un écosystème proie-prédateur</h1><p class="meta">Réponses aux questions — exercices 1 à 10</p></header>
+<div class="intro">Ce document rassemble les réponses aux questions du TP et les diagrammes UML correspondants.</div>
+<section><h2>Exercice 1 — Identifier les caractéristiques d'un lapin</h2>
+<h3>Question 1</h3><div class="question">Quels éléments doivent être représentés par des attributs ?</div><div class="answer">Les attributs sont <code>x</code>, <code>y</code>, <code>energie</code>, <code>age</code> et <code>vitesse</code>.</div>
+<h3>Question 2</h3><div class="question">Quelles actions peut réaliser un lapin ? Proposez au moins trois méthodes.</div><div class="answer">Les méthodes proposées sont <code>se_deplacer(dx, dy)</code>, <code>vieillir()</code> et <code>est_vivant()</code>.</div>
+<h3>Question 3</h3><div class="question">Représentez votre classe sous forme UML.</div><pre class="mermaid">classDiagram
     class Lapin {
         +int x
         +int y
         +int energie
         +int age
         +int vitesse
-    }
-  </pre>
-
-  <h2>Exercice 6</h2>
-  <p>Une liste d'objets permet de parcourir les lapins avec une boucle et de traiter la population comme un ensemble. Avec cinq variables distinctes, le même code devrait être répété pour chaque lapin.</p>
-
-  <h2>Exercice 7</h2>
-  <p>Le concept qui permet de factoriser les caractéristiques communes est l'héritage.</p>
-
-  <h2>Exercice 10</h2>
-  <p><code>Animal</code> est la classe mère. <code>Lapin</code> ajoute <code>fuir()</code> et <code>Loup</code> ajoute <code>chasser()</code>.</p>
-  <pre class="mermaid">
-classDiagram
+    }</pre></section>
+<section><h2>Exercice 6 — Plusieurs objets</h2><div class="question">Pourquoi une liste d'objets est-elle plus intéressante ici que cinq variables distinctes ?</div><div class="answer">Une liste permet de parcourir les lapins avec une boucle et de traiter la population comme un ensemble. Avec cinq variables distinctes, le même code devrait être répété pour chaque lapin.</div></section>
+<section><h2>Exercice 7 — Identifier la duplication</h2><div class="question">Quel concept de POO permet de factoriser ces caractéristiques communes ?</div><div class="answer">Le concept qui permet de factoriser les caractéristiques communes est l'héritage.</div></section>
+<section><h2>Exercice 10 — Comportements spécifiques</h2><div class="question">Complétez le diagramme UML en ajoutant les principaux attributs et méthodes.</div><div class="answer"><code>Animal</code> est la classe mère. <code>Lapin</code> ajoute <code>fuir()</code> et <code>Loup</code> ajoute <code>chasser()</code>.</div><pre class="mermaid">classDiagram
     class Animal {
         +int x
         +int y
@@ -51,19 +36,10 @@ classDiagram
         +vieillir()
         +est_vivant() bool
     }
-    class Lapin {
-        +fuir()
-    }
-    class Loup {
-        +chasser()
-    }
+    class Lapin { +fuir() }
+    class Loup { +chasser() }
     Animal <|-- Lapin
-    Animal <|-- Loup
-  </pre>
-
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true });
-  </script>
-</body>
-</html>
+    Animal <|-- Loup</pre></section>
+<footer>TP de programmation orientée objet · Python 3</footer></div>
+<script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{primaryColor:'#eaf2f8',primaryTextColor:'#183b56',lineColor:'#2f6690'}});</script>
+</body></html>
