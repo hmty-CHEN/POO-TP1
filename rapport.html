@@ -1,11 +1,33 @@
 <!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><title>Rapport — Exercices 1 à 6</title>
-<style>body{max-width:850px;margin:40px auto;font:16px/1.6 Arial;color:#222}h1,h2{color:#17365d}pre{background:#f3f3f3;padding:12px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #aaa;padding:7px;text-align:left}</style></head>
-<body><h1>Simulation d'un écosystème proie-prédateur</h1><p><strong>Rapport de TP — Exercices 1 à 6</strong></p>
-<h2>1. Objectif</h2><p>Cette première étape consiste à représenter un lapin par une classe Python simple, puis à manipuler plusieurs instances.</p>
-<h2>2. Analyse du lapin</h2><table><tr><th>Attribut</th><th>Rôle</th></tr><tr><td>x</td><td>Position horizontale</td></tr><tr><td>y</td><td>Position verticale</td></tr><tr><td>energie</td><td>Énergie disponible</td></tr><tr><td>age</td><td>Âge du lapin</td></tr><tr><td>vitesse</td><td>Vitesse de déplacement</td></tr></table>
-<p>Les actions retenues sont <code>se_deplacer</code>, <code>vieillir</code> et <code>est_vivant</code>.</p>
-<h2>3. Réalisation</h2><p>Le constructeur reçoit <code>x</code> et <code>y</code>. Les valeurs initiales sont une énergie de 100, un âge de 0 et une vitesse de 1.</p><p><code>se_deplacer(dx, dy)</code> ajoute les déplacements aux coordonnées. <code>vieillir()</code> augmente l'âge de 1 et diminue l'énergie de 1. <code>est_vivant()</code> renvoie vrai si l'énergie est strictement positive.</p>
-<h2>4. Plusieurs instances</h2><p>Cinq lapins sont stockés dans une liste. Une boucle permet de faire vieillir tous les objets. Cette organisation évite de répéter cinq fois le même code et permet de traiter la population collectivement.</p>
-<h2>5. Vérification</h2><p>Quelques appels de vérification sont placés directement dans <code>lapin.py</code> : la création, le déplacement, le vieillissement et la mort. Ils affichent les valeurs attendues à l'exécution.<pre>python lapin.py</pre>
-<h2>6. Bilan</h2><p>Les exercices 1 à 6 sont réalisés sans héritage ni classes supplémentaires. La conception restera volontairement simple jusqu'à l'introduction de ces notions dans les étapes suivantes.</p></body></html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Rapport — Réponses aux questions</title>
+  <style>
+    body { max-width: 820px; margin: 40px auto; font: 16px/1.6 Arial, sans-serif; color: #222; }
+    h1, h2, h3 { color: #17365d; }
+    code { background: #f3f3f3; padding: 1px 4px; }
+  </style>
+</head>
+<body>
+  <h1>Simulation d'un écosystème proie-prédateur</h1>
+  <p><strong>Rapport de TP — réponses aux questions</strong></p>
+
+  <h2>Exercice 1</h2>
+  <h3>Question 1</h3>
+  <p>Les attributs sont <code>x</code>, <code>y</code>, <code>energie</code>, <code>age</code> et <code>vitesse</code>.</p>
+  <h3>Question 2</h3>
+  <p>Les méthodes proposées sont <code>se_deplacer(dx, dy)</code>, <code>vieillir()</code> et <code>est_vivant()</code>.</p>
+  <h3>Question 3</h3>
+  <p>Le diagramme se trouve dans <code>docs/uml-exercices-1-a-10.md</code>.</p>
+
+  <h2>Exercice 6</h2>
+  <p>Une liste d'objets permet de parcourir les lapins avec une boucle et de traiter la population comme un ensemble. Avec cinq variables distinctes, le même code devrait être répété pour chaque lapin.</p>
+
+  <h2>Exercice 7</h2>
+  <p>Le concept qui permet de factoriser les caractéristiques communes est l'héritage.</p>
+
+  <h2>Exercice 10</h2>
+  <p><code>Animal</code> est la classe mère. <code>Lapin</code> ajoute <code>fuir()</code> et <code>Loup</code> ajoute <code>chasser()</code>. Le diagramme se trouve dans <code>docs/uml-exercices-1-a-10.md</code>.</p>
+</body>
+</html>

@@ -1,8 +1,8 @@
-# UML — Exercices 1 à 6
+# UML — exercices 1 à 10
 
 ```mermaid
 classDiagram
-    class Lapin {
+    class Animal {
         +int x
         +int y
         +int energie
@@ -12,7 +12,15 @@ classDiagram
         +vieillir()
         +est_vivant() bool
     }
-```
 
-Le diagramme reste volontairement simple. L'héritage et les autres classes
-seront introduits dans les étapes suivantes du TP.
+    class Lapin {
+        +fuir()
+    }
+
+    class Loup {
+        +chasser()
+    }
+
+    Animal <|-- Lapin
+    Animal <|-- Loup
+```
