@@ -16,21 +16,14 @@ class Lapin(Animal):
             else:
                 self.y += random.choice([-1, 1])
 
-    def fuir(self, menace: Animal) -> None:
-        """Se déplacer d'une case sur l'axe qui éloigne le plus de la menace."""
-        meilleur = None
-        meilleure_distance = -1
-        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            distance = (menace.x - (self.x + dx)) ** 2 + (menace.y - (self.y + dy)) ** 2
-            if distance > meilleure_distance:
-                meilleure_distance = distance
-                meilleur = (dx, dy)
-        self.x += meilleur[0]
-        self.y += meilleur[1]
+    def fuir(self) -> None:
+        """Afficher le comportement de fuite."""
+        print("Le lapin fuit !")
 
 
 if __name__ == "__main__":
-    lapin = Lapin(0, 0)
-    menace = Lapin(5, 0)
-    lapin.fuir(menace)
-    print(lapin.x, lapin.y)
+    lapin = Lapin(10, 20)
+    lapin.se_deplacer()
+    lapin.vieillir()
+    print(lapin.x, lapin.y, lapin.age, lapin.energie)
+    lapin.fuir()

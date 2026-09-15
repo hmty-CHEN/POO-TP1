@@ -71,7 +71,7 @@ classDiagram
     }
     class Lapin {
         +se_deplacer()
-        +fuir(menace)
+        +fuir()
     }
     class Loup {
         +int RAYON_DETECTION
