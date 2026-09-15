@@ -42,14 +42,34 @@ class Environnement:
             animal.perdre_energie(Animal.COUT_DEPLACEMENT)
             animal.vieillir()
 
+        self.gerer_reproduction()
+        self.supprimer_morts()
+
+    def gerer_reproduction(self) -> None:
+        """Former des couples proches de même espèce et créer les petits."""
+        deja = []
         nouveau = []
-        for animal in list(self.animaux):
-            if animal.est_vivant() and animal.peut_se_reproduire():
-                animal.perdre_energie(Animal.COUT_REPRODUCTION)
-                nouveau.append(animal.reproduire())
+        for animal in self.animaux:
+            if animal in deja or not animal.peut_se_reproduire():
+                continue
+            partenaire = self._partenaire(animal, deja)
+            if partenaire is None:
+                continue
+            animal.perdre_energie(Animal.COUT_REPRODUCTION)
+            partenaire.perdre_energie(Animal.COUT_REPRODUCTION)
+            deja.append(animal)
+            deja.append(partenaire)
+            nouveau.append(animal.reproduire())
         self.animaux.extend(nouveau)
 
-        self.supprimer_morts()
+    def _partenaire(self, animal: Animal, deja: list) -> Animal:
+        """Chercher un partenaire proche, disponible et de la même espèce."""
+        for autre in self.animaux:
+            if autre is animal or autre in deja:
+                continue
+            if animal.peut_se_reproduire_avec(autre):
+                return autre
+        return None
 
     def statistiques(self) -> dict:
         """Renvoyer les compteurs de population."""

@@ -122,6 +122,30 @@ La composition. Un `Environnement` possède une collection d'animaux : il en est
 
 La condition de reproduction est commune et se place dans `Animal` via `peut_se_reproduire()` (âge ≥ 5 et énergie ≥ 60). En revanche, la création d'un nouvel individu dépend de l'espèce : `reproduire()` est donc abstraite dans `Animal` et implémentée dans `Lapin` et `Loup`, qui renvoient un objet de leur propre classe.
 
+## Reproduction par couple
+
+> Règle : au moins deux animaux de la même espèce doivent être proches, et la reproduction consomme l'énergie des deux parents.
+
+La règle est répartie sur trois niveaux :
+
+- `Animal` porte les paramètres communs et les conditions : `RAYON_REPRODUCTION`, `peut_se_reproduire()` (âge ≥ 5 et énergie ≥ 60) et `peut_se_reproduire_avec(autre)` (même espèce, les deux prêts, distance ≤ rayon) ;
+- `Lapin` et `Loup` fournissent seulement `reproduire()`, qui crée un petit de leur propre espèce ;
+- `Environnement` forme les couples : il parcourt les animaux, cherche un partenaire proche et disponible, retire `COUT_REPRODUCTION` à chacun, puis ajoute le petit. Un animal ne participe qu'à un seul couple par tour.
+
+```python
+def peut_se_reproduire_avec(self, autre):
+    return (
+        type(autre) is type(self)
+        and self.est_vivant()
+        and autre.est_vivant()
+        and self.peut_se_reproduire()
+        and autre.peut_se_reproduire()
+        and self.distance_avec(autre) <= self.RAYON_REPRODUCTION
+    )
+```
+
+Avec cette règle, un animal isolé ne peut plus se reproduire : il faut un partenaire proche de la même espèce.
+
 ## Fuite du lapin
 
 > Logique retenue pour le déplacement de fuite.
@@ -156,6 +180,7 @@ classDiagram
     class Animal {
         <<abstract>>
         +int RAYON_DETECTION
+        +int RAYON_REPRODUCTION
         +int x
         +int y
         +int age
@@ -171,6 +196,7 @@ classDiagram
         +distance_avec(autre) float
         +detecter(autre) bool
         +peut_se_reproduire() bool
+        +peut_se_reproduire_avec(autre) bool
     }
 
     class Proie {
@@ -210,6 +236,7 @@ classDiagram
         +supprimer_morts()
         +compter(espece) int
         +simuler_un_tour()
+        +gerer_reproduction()
         +statistiques() dict
     }
 

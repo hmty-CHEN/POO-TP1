@@ -8,6 +8,7 @@ class Animal(ABC):
     """Regrouper les caractéristiques communes aux animaux."""
 
     RAYON_DETECTION = 10
+    RAYON_REPRODUCTION = 3
     COUT_DEPLACEMENT = 1
     COUT_REPRODUCTION = 30
     EST_PROIE = False
@@ -67,6 +68,17 @@ class Animal(ABC):
     def peut_se_reproduire(self) -> bool:
         """Indiquer si l'âge et l'énergie permettent la reproduction."""
         return self.age >= 5 and self.energie >= 60
+
+    def peut_se_reproduire_avec(self, autre: "Animal") -> bool:
+        """Indiquer si deux animaux proches de la même espèce peuvent se reproduire."""
+        return (
+            type(autre) is type(self)
+            and self.est_vivant()
+            and autre.est_vivant()
+            and self.peut_se_reproduire()
+            and autre.peut_se_reproduire()
+            and self.distance_avec(autre) <= self.RAYON_REPRODUCTION
+        )
 
 
 if __name__ == "__main__":
