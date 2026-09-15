@@ -1,18 +1,16 @@
-"""Point d'entrée du programme."""
+"""Démonstration du polymorphisme."""
 
 from lapin import Lapin
+from loup import Loup
 
 
-lapins = [
+animaux = [
     Lapin(10, 10),
-    Lapin(20, 30),
-    Lapin(50, 20),
-    Lapin(70, 40),
-    Lapin(80, 80),
+    Loup(20, 20),
+    Lapin(30, 30),
+    Loup(40, 40),
 ]
 
-for lapin in lapins:
-    lapin.vieillir()
-
-print(f"Nombre de lapins : {len(lapins)}")
-print(f"Âges après un tour : {[lapin.age for lapin in lapins]}")
+for animal in animaux:
+    animal.se_deplacer()
+    print(type(animal).__name__, animal.x, animal.y)

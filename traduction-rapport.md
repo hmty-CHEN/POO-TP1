@@ -1,5 +1,7 @@
 # 中文报告：问题与回答
 
+> 猎物—捕食者生态系统模拟 — 练习 1 至 14
+
 ## 练习 1：识别兔子的特征
 
 ### 问题 1
@@ -12,7 +14,7 @@
 
 > 兔子可以执行哪些动作？请至少提出三个方法。
 
-方法为 `se_deplacer(dx, dy)`、`vieillir()` 和 `est_vivant()`。
+方法为 `se_deplacer()`、`vieillir()` 和 `est_vivant()`。
 
 ### 问题 3
 
@@ -56,17 +58,46 @@ classDiagram
 ```mermaid
 classDiagram
     class Animal {
+        <<abstract>>
         +int x
         +int y
         +int energie
         +int age
         +int vitesse
-        +se_deplacer(dx, dy)
+        +se_deplacer()*
         +vieillir()
         +est_vivant() bool
     }
-    class Lapin { +fuir() }
-    class Loup { +chasser() }
+    class Lapin {
+        +se_deplacer()
+        +fuir()
+    }
+    class Loup {
+        +se_deplacer()
+        +chasser()
+    }
     Animal <|-- Lapin
     Animal <|-- Loup
 ```
+
+## 练习 12：多态
+
+### 问题
+
+> 为什么我们不需要写 `if isinstance(animal, Lapin)`？请用你自己的话解释什么是多态。
+
+每个动物都有自己的 `se_deplacer()` 方法。遍历动物列表时，Python 会自动调用与对象实际类型对应的那个方法。因此，多态就是：同一条指令（例如 `animal.se_deplacer()`）根据对象的类产生不同的行为，而不需要判断对象类型。
+
+## 练习 14：测试抽象
+
+### 问题
+
+> 尝试 `animal = Animal(10, 10)`。会发生什么？解释原因。
+
+该语句会报错：
+
+```text
+TypeError: Can't instantiate abstract class Animal with abstract method se_deplacer
+```
+
+`Animal` 含有抽象方法 `se_deplacer()`，因此它是抽象类。Python 不允许直接创建 `Animal` 对象，只有实现了该方法的 `Lapin` 和 `Loup` 这些具体类才能被实例化。
