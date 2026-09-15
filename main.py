@@ -1,17 +1,18 @@
-"""Point d'entrée du programme.
+"""Exemples des exercices 1 à 6."""
 
-Exécution :
-    python main.py
-"""
-
-from src.simulation import Simulation
+from lapin import Lapin
 
 
-def main() -> None:
-    """Lancer la simulation de l'écosystème."""
-    # TODO: créer une instance de Simulation puis appeler `executer`.
-    raise NotImplementedError
+lapins = [
+    Lapin(10, 10),
+    Lapin(20, 30),
+    Lapin(50, 20),
+    Lapin(70, 40),
+    Lapin(80, 80),
+]
 
+for lapin in lapins:
+    lapin.vieillir()
 
-if __name__ == "__main__":
-    main()
+print(f"Nombre de lapins : {len(lapins)}")
+print(f"Âges après un tour : {[lapin.age for lapin in lapins]}")

@@ -2,13 +2,11 @@
 
 Projet de TP — **Programmation orientée objet en Python**.
 
-Ce dépôt contient la structure initiale du projet. L'objectif est de
-simuler l'évolution d'un petit écosystème composé de proies (lapins) et
-de prédateurs (loups) évoluant dans un environnement en grille.
+Ce dépôt contient l'avancement progressif du TP. Les exercices 1 à 6 portent
+uniquement sur une classe simple `Lapin`.
 
-> **État actuel : squelette du projet.**
-> Les classes et les méthodes sont déclarées mais **non implémentées**.
-> Chaque partie à compléter est signalée par un commentaire `TODO`.
+> **État actuel : exercices 1 à 6 réalisés.** L'héritage, les loups et
+> l'environnement seront ajoutés dans les étapes suivantes.
 
 ---
 
@@ -30,46 +28,27 @@ Ce projet sert à mettre en pratique :
 
 ---
 
-## Arborescence
+## Arborescence actuelle
 
 ```text
 simulation-ecosysteme-poo/
-├── README.md
-├── .gitignore
-├── requirements.txt
+├── lapin.py
 ├── main.py
-├── src/
-│   ├── __init__.py
-│   ├── animal.py
-│   ├── proie.py
-│   ├── predateur.py
-│   ├── lapin.py
-│   ├── loup.py
-│   ├── environnement.py
-│   └── simulation.py
-├── tests/
-│   ├── __init__.py
-│   ├── test_animal.py
-│   └── test_environnement.py
+├── rapport.html
+├── traduction-rapport.md
 └── docs/
-    ├── conception.md
-    └── diagramme-uml.md
+    └── uml-exercices-1-a-6.md
 ```
 
 ### Rôle des fichiers
 
 | Fichier | Responsabilité |
 | --- | --- |
-| `src/animal.py` | Classe abstraite commune à tous les animaux. |
-| `src/proie.py` | Comportements communs aux proies. |
-| `src/predateur.py` | Comportements communs aux prédateurs. |
-| `src/lapin.py` | Proie concrète (déplacement, fuite). |
-| `src/loup.py` | Prédateur concret (déplacement, chasse). |
-| `src/environnement.py` | Gestion de la grille et des animaux (composition). |
-| `src/simulation.py` | Orchestration des tours et des statistiques. |
-| `main.py` | Point d'entrée du programme. |
-| `tests/` | Tests unitaires (`unittest`). |
-| `docs/` | Rapport de conception et diagramme UML. |
+| `lapin.py` | Classe `Lapin` et ses tests unitaires intégrés. |
+| `main.py` | Création de cinq lapins et manipulation de la liste. |
+| `rapport.html` | Rapport de cours en français. |
+| `traduction-rapport.md` | Traduction chinoise du rapport. |
+| `docs/` | Diagramme UML de l'étape actuelle. |
 
 ---
 
@@ -89,23 +68,13 @@ python main.py
 ## Tests
 
 ```bash
-python -m unittest
+python lapin.py
 ```
 
 ---
 
-## Hiérarchie prévue des classes
-
-```text
-        Animal (abstraite)
-        ├── Proie
-        │   └── Lapin
-        └── Predateur
-            └── Loup
-
-Environnement  ◆── Animal      (composition)
-Simulation     ── Environnement
-```
+Les tests sont actuellement placés dans `lapin.py` pour rester simples et
+suivre la consigne de l'étape actuelle.
 
 ---
 
@@ -123,16 +92,11 @@ Merci de **ne pas travailler directement sur `main`**.
 
 ---
 
-## Répartition suggérée
+## Étapes suivantes
 
-- [ ] `Animal` : attributs communs, énergie, âge, vivant.
-- [ ] `Proie` / `Predateur` : comportements spécifiques.
-- [ ] `Lapin` / `Loup` : implémentations concrètes.
-- [ ] `Environnement` : grille, ajout, suppression, un tour.
-- [ ] `Simulation` : populations, boucle, statistiques.
-- [ ] Tests unitaires.
-- [ ] Diagramme UML.
-- [ ] Rapport de conception.
+- [x] Exercices 1 à 6 : classe simple `Lapin`.
+- [ ] Exercices suivants : héritage et classe `Animal`.
+- [ ] Ajouter progressivement `Loup`, `Environnement` et `Simulation`.
 
 ---
 
