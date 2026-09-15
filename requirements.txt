@@ -1,0 +1,3 @@
+# Aucune dépendance externe n'est nécessaire.
+# Le projet repose uniquement sur la bibliothèque standard de Python 3
+# (modules `abc`, `math`, `unittest`).
