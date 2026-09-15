@@ -66,17 +66,20 @@ classDiagram
         +int vitesse
         +energie int
         +se_deplacer()*
+        +reproduire()* Animal
         +vieillir()
         +perdre_energie(quantite)
         +gagner_energie(quantite)
         +est_vivant() bool
         +distance_avec(autre) float
         +detecter(autre) bool
+        +peut_se_reproduire() bool
     }
     class Lapin {
         +int RAYON_DETECTION = 4
         +se_deplacer()
         +fuir(menace)
+        +reproduire() Lapin
     }
     class Loup {
         +int GAIN_CHASSE
@@ -84,9 +87,20 @@ classDiagram
         +rechercher_proies(animaux) list
         +se_deplacer_vers(cible)
         +chasser(proie)
+        +reproduire() Loup
+    }
+    class Environnement {
+        +int largeur
+        +int hauteur
+        +list animaux
+        +ajouter(animal)
+        +supprimer_morts()
+        +compter(espece) int
+        +simuler_un_tour()
     }
     Animal &lt;|-- Lapin
     Animal &lt;|-- Loup
+    Environnement "1" *-- "0..*" Animal : contient
   </pre>
 
   <h2>Exercice 12 — Polymorphisme</h2>
@@ -96,8 +110,8 @@ classDiagram
   <h2>Exercice 14 — Tester l'abstraction</h2>
   <p class="question">Essayez <code>animal = Animal(10, 10)</code>. Que se passe-t-il ? Expliquez pourquoi.</p>
   <p>L'instruction déclenche une erreur :</p>
-  <pre class="example">TypeError: Can't instantiate abstract class Animal with abstract method se_deplacer</pre>
-  <p><code>Animal</code> contient une méthode abstraite <code>se_deplacer()</code>, donc la classe est abstraite. Python interdit de créer directement un objet <code>Animal</code> : seules les classes concrètes <code>Lapin</code> et <code>Loup</code>, qui implémentent cette méthode, peuvent être instanciées.</p>
+  <pre class="example">TypeError: Can't instantiate abstract class Animal with abstract methods reproduire, se_deplacer</pre>
+  <p><code>Animal</code> contient des méthodes abstraites (<code>se_deplacer()</code> et <code>reproduire()</code>), donc la classe est abstraite. Python interdit de créer directement un objet <code>Animal</code> : seules les classes concrètes <code>Lapin</code> et <code>Loup</code>, qui implémentent ces méthodes, peuvent être instanciées.</p>
 
   <h2>Exercice 15 — Encapsuler l'énergie</h2>
   <p class="question">Réfléchissez à la manière de garantir que l'énergie ne devienne pas incohérente.</p>
@@ -107,6 +121,14 @@ classDiagram
   <h2>Exercice 17 — Distance</h2>
   <p class="question">Cette fonctionnalité doit-elle appartenir à <code>Animal</code>, à <code>Environnement</code> ou à une fonction indépendante ? Justifiez votre choix.</p>
   <p>Elle appartient à <code>Animal</code>. La distance ne dépend que des positions de deux animaux : la placer dans <code>Animal</code> garde les données et le comportement qui les utilise au même endroit, et permet d'écrire <code>animal.distance_avec(autre)</code> sans que l'objet ait besoin de connaître l'environnement.</p>
+
+  <h2>Exercice 20 — Ajouter des animaux</h2>
+  <p class="question">Quel concept de POO illustre le fait qu'un environnement contient des animaux ?</p>
+  <p>La composition. Un <code>Environnement</code> possède une collection d'animaux : il en est responsable et les gère (ajout, suppression, évolution) sans hériter d'eux.</p>
+
+  <h2>Exercice 23 — Reproduction</h2>
+  <p class="question">La méthode <code>reproduire()</code> doit-elle être définie dans <code>Animal</code>, <code>Proie</code>, <code>Lapin</code> ou une autre classe ? Justifiez votre choix.</p>
+  <p>La condition de reproduction est commune et se place dans <code>Animal</code> via <code>peut_se_reproduire()</code> (âge ≥ 5 et énergie ≥ 60). En revanche, la création d'un nouvel individu dépend de l'espèce : <code>reproduire()</code> est donc abstraite dans <code>Animal</code> et implémentée dans <code>Lapin</code> et <code>Loup</code>, qui renvoient un objet de leur propre classe.</p>
 
   <h2>Fuite du lapin</h2>
   <p class="question">Logique retenue pour le déplacement de fuite.</p>

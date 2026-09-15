@@ -1,25 +1,19 @@
-"""Démonstration de la fuite et de la chasse."""
+"""Démonstration de l'environnement."""
 
+from environnement import Environnement
 from lapin import Lapin
 from loup import Loup
 
 
-loup = Loup(0, 0)
-lapin = Lapin(8, 0)
-animaux = [loup, lapin]
+environnement = Environnement(100, 100)
+for _ in range(5):
+    environnement.ajouter(Lapin(50, 50))
+environnement.ajouter(Loup(60, 60))
 
-for tour in range(20):
-    if lapin.est_vivant():
-        if lapin.detecter(loup):
-            lapin.fuir(loup)
-        else:
-            lapin.se_deplacer()
-    proies = loup.rechercher_proies(animaux)
-    if proies:
-        loup.se_deplacer_vers(proies[0])
-        loup.chasser(proies[0])
+for tour in range(12):
+    environnement.simuler_un_tour()
     print(
-        f"Tour {tour} : loup=({loup.x},{loup.y}) "
-        f"lapin=({lapin.x},{lapin.y}) vivant={lapin.est_vivant()} "
-        f"energie_loup={loup.energie}"
+        f"Tour {tour} : proies={environnement.compter(Lapin)} "
+        f"predateurs={environnement.compter(Loup)} "
+        f"total={len(environnement.animaux)}"
     )

@@ -8,6 +8,8 @@ class Animal(ABC):
     """Regrouper les caractéristiques communes aux animaux."""
 
     RAYON_DETECTION = 10
+    COUT_DEPLACEMENT = 1
+    COUT_REPRODUCTION = 30
 
     def __init__(self, x: int, y: int) -> None:
         self.x = x
@@ -24,6 +26,11 @@ class Animal(ABC):
     @abstractmethod
     def se_deplacer(self) -> None:
         """Déplacer l'animal selon son comportement propre."""
+        ...
+
+    @abstractmethod
+    def reproduire(self) -> "Animal":
+        """Créer un nouvel animal de la même espèce."""
         ...
 
     def vieillir(self) -> None:
@@ -50,6 +57,10 @@ class Animal(ABC):
     def detecter(self, autre: "Animal") -> bool:
         """Indiquer si un autre animal est dans le rayon de détection."""
         return self.distance_avec(autre) <= self.RAYON_DETECTION
+
+    def peut_se_reproduire(self) -> bool:
+        """Indiquer si l'âge et l'énergie permettent la reproduction."""
+        return self.age >= 5 and self.energie >= 60
 
 
 if __name__ == "__main__":

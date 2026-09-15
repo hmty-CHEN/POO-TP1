@@ -2,7 +2,7 @@
 
 Projet de TP — Programmation orientée objet en Python.
 
-> État actuel : exercices 1 à 10.
+> État actuel : exercices 1 à 23.
 
 ## Arborescence
 
@@ -11,6 +11,7 @@ simulation-ecosysteme-poo/
 ├── animal.py
 ├── lapin.py
 ├── loup.py
+├── environnement.py
 ├── main.py
 ├── rapport.html
 └── traduction-rapport.md
@@ -21,7 +22,8 @@ simulation-ecosysteme-poo/
 | `animal.py` | Classe `Animal` (attributs et méthodes communs). |
 | `lapin.py` | Classe `Lapin`, hérite d'`Animal`. |
 | `loup.py` | Classe `Loup`, hérite d'`Animal`. |
-| `main.py` | Création de plusieurs lapins. |
+| `environnement.py` | Classe `Environnement` (composition, tours, reproduction). |
+| `main.py` | Démonstration de l'environnement. |
 | `rapport.html` | Rapport de cours en français. |
 | `traduction-rapport.md` | Traduction chinoise du rapport. |
 
@@ -29,6 +31,7 @@ simulation-ecosysteme-poo/
 
 ```bash
 python main.py
+python environnement.py
 python lapin.py
 python loup.py
 ```

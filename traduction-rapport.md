@@ -64,17 +64,20 @@ classDiagram
         +int vitesse
         +energie int
         +se_deplacer()*
+        +reproduire()* Animal
         +vieillir()
         +perdre_energie(quantite)
         +gagner_energie(quantite)
         +est_vivant() bool
         +distance_avec(autre) float
         +detecter(autre) bool
+        +peut_se_reproduire() bool
     }
     class Lapin {
         +int RAYON_DETECTION = 4
         +se_deplacer()
         +fuir(menace)
+        +reproduire() Lapin
     }
     class Loup {
         +int GAIN_CHASSE
@@ -82,9 +85,20 @@ classDiagram
         +rechercher_proies(animaux) list
         +se_deplacer_vers(cible)
         +chasser(proie)
+        +reproduire() Loup
+    }
+    class Environnement {
+        +int largeur
+        +int hauteur
+        +list animaux
+        +ajouter(animal)
+        +supprimer_morts()
+        +compter(espece) int
+        +simuler_un_tour()
     }
     Animal <|-- Lapin
     Animal <|-- Loup
+    Environnement "1" *-- "0..*" Animal : contient
 ```
 
 ## 练习 12：多态
@@ -104,10 +118,10 @@ classDiagram
 该语句会报错：
 
 ```text
-TypeError: Can't instantiate abstract class Animal with abstract method se_deplacer
+TypeError: Can't instantiate abstract class Animal with abstract methods reproduire, se_deplacer
 ```
 
-`Animal` 含有抽象方法 `se_deplacer()`，因此它是抽象类。Python 不允许直接创建 `Animal` 对象，只有实现了该方法的 `Lapin` 和 `Loup` 这些具体类才能被实例化。
+`Animal` 含有抽象方法（`se_deplacer()` 和 `reproduire()`），因此它是抽象类。Python 不允许直接创建 `Animal` 对象，只有实现了这些方法的 `Lapin` 和 `Loup` 这些具体类才能被实例化。
 
 ## 练习 15：封装能量
 
@@ -128,6 +142,22 @@ AttributeError: can't set attribute
 > 这个功能应当属于 `Animal`、`Environnement`，还是一个独立函数？请论证你的选择。
 
 它属于 `Animal`。距离只取决于两只动物的位置，把它放在 `Animal` 中可以让数据和用到它的行为保持在一起，并且可以直接写 `animal.distance_avec(autre)`，而无需让对象知道环境的存在。
+
+## 练习 20：添加动物
+
+### 问题
+
+> “一个环境包含若干动物”体现了哪种面向对象概念？
+
+组合（composition）。`Environnement` 拥有一个动物集合：它负责并管理这些动物（添加、删除、演化），但并不是继承它们。
+
+## 练习 23：繁殖
+
+### 设计问题
+
+> `reproduire()` 方法应当定义在 `Animal`、`Proie`、`Lapin` 还是另一个类中？请论证你的选择。
+
+繁殖条件是共通的，通过 `peut_se_reproduire()`（年龄 ≥ 5 且能量 ≥ 60）放在 `Animal` 中。但新个体的创建取决于物种：因此 `reproduire()` 在 `Animal` 中是抽象的，由 `Lapin` 和 `Loup` 各自实现，返回自身类的对象。
 
 ## 兔子的逃跑
 

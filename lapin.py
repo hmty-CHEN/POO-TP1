@@ -32,6 +32,10 @@ class Lapin(Animal):
         self.x += meilleur[0]
         self.y += meilleur[1]
 
+    def reproduire(self) -> "Lapin":
+        """Créer un nouveau lapin à la même position."""
+        return Lapin(self.x, self.y)
+
 
 if __name__ == "__main__":
     from loup import Loup

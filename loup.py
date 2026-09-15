@@ -28,9 +28,7 @@ class Loup(Animal):
         return [
             animal
             for animal in animaux
-            if isinstance(animal, Lapin)
-            and animal.est_vivant()
-            and self.detecter(animal)
+            if isinstance(animal, Lapin) and animal.est_vivant() and self.detecter(animal)
         ]
 
     def se_deplacer_vers(self, cible: Animal) -> None:
@@ -48,6 +46,10 @@ class Loup(Animal):
         if self.x == proie.x and self.y == proie.y:
             proie.perdre_energie(proie.energie)
             self.gagner_energie(self.GAIN_CHASSE)
+
+    def reproduire(self) -> "Loup":
+        """Créer un nouveau loup à la même position."""
+        return Loup(self.x, self.y)
 
 
 if __name__ == "__main__":
