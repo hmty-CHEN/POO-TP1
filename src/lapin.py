@@ -14,16 +14,15 @@ class Lapin(Proie):
 
     VITESSE_PAR_DEFAUT = 1
 
+    # Cette première étape décrit uniquement les caractéristiques du lapin.
+    # Les comportements seront ajoutés dans les exercices suivants.
     def __init__(self, x: int, y: int) -> None:
-        """Créer un lapin aux coordonnées données.
-
-        Args:
-            x: position horizontale initiale.
-            y: position verticale initiale.
-        """
-        # TODO: appeler le constructeur de Proie / Animal avec les valeurs
-        # par défaut du sujet (énergie 100, âge 0, vitesse 1).
-        raise NotImplementedError
+        """Décrire un lapin par sa position et ses caractéristiques initiales."""
+        self.x = x
+        self.y = y
+        self.energie = 100
+        self.age = 0
+        self.vitesse = self.VITESSE_PAR_DEFAUT
 
     def se_deplacer(self) -> None:
         """Déplacer le lapin d'une case."""

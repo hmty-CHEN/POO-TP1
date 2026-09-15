@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rapport — Simulation d'un écosystème</title>
+  <style>
+    body { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; font: 1rem/1.6 Arial, sans-serif; color: #222; }
+    h1, h2 { color: #17365d; } h1 { text-align: center; }
+    .page-de-garde { text-align: center; margin: 5rem 0; }
+    pre { background: #f4f6f8; padding: 1rem; overflow-x: auto; }
+    code { font-family: Menlo, monospace; } table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #bbb; padding: .5rem; text-align: left; }
+  </style>
+</head>
+<body>
+  <header class="page-de-garde">
+    <h1>Simulation d'un écosystème proie-prédateur</h1>
+    <p><strong>Rapport de TP — Programmation orientée objet en Python</strong></p>
+    <p>Étape réalisée : Exercice 1</p>
+    <p>Étudiant : CHEN Qiyue</p>
+  </header>
+
+  <main>
+    <h2>1. Introduction</h2>
+    <p>Ce projet a pour objectif de construire progressivement une simulation simple d'un écosystème composé de proies et de prédateurs. La première étape consiste à analyser les caractéristiques d'un lapin avant d'implémenter ses comportements.</p>
+
+    <h2>2. Objectif de l'exercice 1</h2>
+    <p>L'exercice demande d'identifier les informations qui décrivent un lapin et les actions qu'il pourra effectuer. Cette analyse prépare la conception de la classe <code>Lapin</code>.</p>
+
+    <h2>3. Réponses aux questions</h2>
+    <h3>Question 1 — Attributs</h3>
+    <table><thead><tr><th>Attribut</th><th>Signification</th></tr></thead><tbody>
+      <tr><td><code>x</code></td><td>Position horizontale</td></tr>
+      <tr><td><code>y</code></td><td>Position verticale</td></tr>
+      <tr><td><code>energie</code></td><td>Énergie disponible</td></tr>
+      <tr><td><code>age</code></td><td>Âge du lapin</td></tr>
+      <tr><td><code>vitesse</code></td><td>Vitesse de déplacement</td></tr>
+    </tbody></table>
+
+    <h3>Question 2 — Méthodes proposées</h3>
+    <ul>
+      <li><code>se_deplacer()</code> : modifier la position du lapin ;</li>
+      <li><code>vieillir()</code> : augmenter l'âge et diminuer l'énergie ;</li>
+      <li><code>est_vivant()</code> : vérifier si l'énergie est strictement positive.</li>
+    </ul>
+    <p>Les méthodes de déplacement, de vieillissement et de survie seront implémentées dans les exercices suivants.</p>
+
+    <h3>Question 3 — Modèle UML</h3>
+    <p>Le diagramme correspondant se trouve dans <code>docs/uml-exercice-1.md</code>.</p>
+
+    <h2>4. Première implémentation</h2>
+    <p>La classe <code>Lapin</code> est initialisée avec ses coordonnées. Les valeurs demandées par le sujet sont utilisées : énergie égale à 100, âge égal à 0 et vitesse égale à 1.</p>
+    <pre><code>lapin = Lapin(10, 20)
+print(lapin.x, lapin.y)
+print(lapin.energie, lapin.age, lapin.vitesse)</code></pre>
+
+    <h2>5. Bilan de l'étape</h2>
+    <p>Cette étape permet de distinguer les données qui décrivent un objet de ses comportements. Le lapin est maintenant représenté par une classe minimale ; ses comportements seront ajoutés progressivement afin de respecter la progression du TP.</p>
+  </main>
+</body>
+</html>
