@@ -75,9 +75,6 @@ class Application(tk.Tk):
         self.bouton_play = ttk.Button(cadre_actions, text="Démarrer", command=self._basculer)
         self.bouton_play.pack(fill="x", pady=2)
         ttk.Button(cadre_actions, text="Un tour", command=self._un_tour).pack(fill="x", pady=2)
-        ttk.Button(
-            cadre_actions, text="Supprimer les morts", command=self._supprimer_morts
-        ).pack(fill="x", pady=2)
 
         cadre_ajout = ttk.LabelFrame(panneau, text="Outil de clic (grille)", padding=8)
         cadre_ajout.pack(fill="x", pady=(10, 0))
@@ -246,12 +243,6 @@ class Application(tk.Tk):
                 meilleure_distance = distance
                 meilleur = animal
         return meilleur
-
-    def _supprimer_morts(self) -> None:
-        """Retirer de la grille les animaux qui ne sont plus vivants."""
-        self.environnement.supprimer_morts()
-        self._dessiner()
-        self._mettre_a_jour_statistiques()
 
     def _dessiner(self) -> None:
         """Redessiner tous les animaux sur la grille."""
