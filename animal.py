@@ -7,6 +7,8 @@ from abc import ABC, abstractmethod
 class Animal(ABC):
     """Regrouper les caractéristiques communes aux animaux."""
 
+    RAYON_DETECTION = 10
+
     def __init__(self, x: int, y: int) -> None:
         self.x = x
         self.y = y
@@ -44,6 +46,10 @@ class Animal(ABC):
     def distance_avec(self, autre: "Animal") -> float:
         """Calculer la distance entre deux animaux."""
         return math.sqrt((autre.x - self.x) ** 2 + (autre.y - self.y) ** 2)
+
+    def detecter(self, autre: "Animal") -> bool:
+        """Indiquer si un autre animal est dans le rayon de détection."""
+        return self.distance_avec(autre) <= self.RAYON_DETECTION
 
 
 if __name__ == "__main__":

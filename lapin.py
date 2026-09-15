@@ -18,10 +18,6 @@ class Lapin(Animal):
             else:
                 self.y += random.choice([-1, 1])
 
-    def detecter(self, menace: Animal) -> bool:
-        """Indiquer si la menace est dans le rayon de détection."""
-        return self.distance_avec(menace) <= self.RAYON_DETECTION
-
     def fuir(self, menace: Animal) -> None:
         """Se déplacer d'une case sur l'axe qui éloigne le plus de la menace détectée."""
         if not self.detecter(menace):

@@ -59,6 +59,7 @@ classDiagram
 classDiagram
     class Animal {
         &lt;&lt;abstract&gt;&gt;
+        +int RAYON_DETECTION
         +int x
         +int y
         +int age
@@ -70,15 +71,14 @@ classDiagram
         +gagner_energie(quantite)
         +est_vivant() bool
         +distance_avec(autre) float
+        +detecter(autre) bool
     }
     class Lapin {
-        +int RAYON_DETECTION
+        +int RAYON_DETECTION = 4
         +se_deplacer()
-        +detecter(menace) bool
         +fuir(menace)
     }
     class Loup {
-        +int RAYON_DETECTION
         +int GAIN_CHASSE
         +se_deplacer()
         +rechercher_proies(animaux) list
@@ -110,7 +110,7 @@ classDiagram
 
   <h2>Fuite du lapin</h2>
   <p class="question">Logique retenue pour le déplacement de fuite.</p>
-  <p>Le lapin ne détecte une menace que dans un rayon de 4 cases, soit environ 40 % du rayon de détection du loup (10). Hors de ce rayon, il ne réagit pas et se déplace au hasard.</p>
+  <p>Le rayon de détection est défini dans <code>Animal</code> (10 par défaut). <code>Lapin</code> le redéfinit à 4, soit environ 40 % de celui du loup. Hors de ce rayon, le lapin ne réagit pas et se déplace au hasard.</p>
   <p>Dans son rayon de détection, le lapin examine les quatre cases voisines accessibles le long des axes. Il choisit celle qui maximise la distance au carré avec la menace, puis s'y déplace d'une case. Cette règle offre le plus grand gain de distance par case déplacée. Le déplacement diagonal n'est pas utilisé : il coûterait deux cases.</p>
   <pre class="example">def fuir(self, menace):
     meilleur = None

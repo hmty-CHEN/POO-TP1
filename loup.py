@@ -9,7 +9,6 @@ from lapin import Lapin
 class Loup(Animal):
     """Représenter un loup."""
 
-    RAYON_DETECTION = 10
     GAIN_CHASSE = 20
 
     def __init__(self, x: int, y: int) -> None:
@@ -31,7 +30,7 @@ class Loup(Animal):
             for animal in animaux
             if isinstance(animal, Lapin)
             and animal.est_vivant()
-            and self.distance_avec(animal) <= self.RAYON_DETECTION
+            and self.detecter(animal)
         ]
 
     def se_deplacer_vers(self, cible: Animal) -> None:

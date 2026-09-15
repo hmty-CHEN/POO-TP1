@@ -57,6 +57,7 @@ classDiagram
 classDiagram
     class Animal {
         <<abstract>>
+        +int RAYON_DETECTION
         +int x
         +int y
         +int age
@@ -68,15 +69,14 @@ classDiagram
         +gagner_energie(quantite)
         +est_vivant() bool
         +distance_avec(autre) float
+        +detecter(autre) bool
     }
     class Lapin {
-        +int RAYON_DETECTION
+        +int RAYON_DETECTION = 4
         +se_deplacer()
-        +detecter(menace) bool
         +fuir(menace)
     }
     class Loup {
-        +int RAYON_DETECTION
         +int GAIN_CHASSE
         +se_deplacer()
         +rechercher_proies(animaux) list
@@ -133,7 +133,7 @@ AttributeError: can't set attribute
 
 ### 采用的逃跑逻辑
 
-兔子只能在 4 格半径内探测到威胁，约为狼探测半径（10）的 40%。超出该半径时，它不会做出反应，而是随机移动。
+探测半径定义在 `Animal` 中（默认 10）。`Lapin` 将其覆盖为 4，约为狼的 40%。超出该半径时，兔子不会做出反应，而是随机移动。
 
 在探测范围内，兔子检查沿坐标轴可达的四个相邻格，选择与威胁之间**距离平方最大**的那一格，然后移动 1 格。这样每移动一格获得最大的距离增量。不使用对角移动，因为对角需要消耗 2 格行走量。
 
