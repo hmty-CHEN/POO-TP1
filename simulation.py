@@ -26,9 +26,9 @@ class Simulation:
         largeur = self.environnement.largeur
         hauteur = self.environnement.hauteur
         for _ in range(self.nombre_lapins):
-            self.environnement.ajouter(Lapin(random.randint(0, largeur), random.randint(0, hauteur)))
+            self.environnement.ajouter(Lapin(random.randrange(largeur), random.randrange(hauteur)))
         for _ in range(self.nombre_loups):
-            self.environnement.ajouter(Loup(random.randint(0, largeur), random.randint(0, hauteur)))
+            self.environnement.ajouter(Loup(random.randrange(largeur), random.randrange(hauteur)))
 
     def executer(self, nombre_de_tours: int = 10) -> None:
         """Exécuter la simulation sur un nombre de tours donné."""

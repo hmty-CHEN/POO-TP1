@@ -295,7 +295,7 @@ Les tests sont regroupés dans `test_animal.py` et `test_environnement.py`, puis
 python -m unittest
 ```
 
-Les huit tests passent.
+Les dix tests passent.
 
 ## Visualisation graphique (tkinter)
 
