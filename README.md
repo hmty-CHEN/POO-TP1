@@ -19,8 +19,7 @@ simulation-ecosysteme-poo/
 ├── main.py
 ├── test_animal.py
 ├── test_environnement.py
-├── rapport.html
-└── traduction-rapport.md
+└── rapport.md
 ```
 
 | Fichier | Contenu |
@@ -36,8 +35,7 @@ simulation-ecosysteme-poo/
 | `main.py` | Point d'entrée : lance la simulation. |
 | `test_animal.py` | Tests unitaires des animaux. |
 | `test_environnement.py` | Tests unitaires de l'environnement. |
-| `rapport.html` | Rapport de cours en français. |
-| `traduction-rapport.md` | Traduction chinoise du rapport. |
+| `rapport.md` | Rapport de cours en français. |
 
 ## Exécution
 

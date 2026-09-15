@@ -27,6 +27,8 @@ class Application(tk.Tk):
         self.taille_case = self._calculer_taille_case(COTE_DEFAUT, COTE_DEFAUT)
         self.tour_courant = 0
         self.en_cours = False
+        self.termine = False
+        self.outil = tk.StringVar(value="aucun")
 
         self._construire_interface()
         self._initialiser()
@@ -52,6 +54,7 @@ class Application(tk.Tk):
             highlightbackground="#bdbdbd",
         )
         self.canevas.pack(fill="both", expand=True)
+        self.canevas.bind("<Button-1>", self._clic)
 
         panneau = ttk.Frame(self)
         panneau.grid(row=0, column=1, sticky="n", padx=(0, 10), pady=10)
@@ -73,14 +76,20 @@ class Application(tk.Tk):
         self.bouton_play.pack(fill="x", pady=2)
         ttk.Button(cadre_actions, text="Un tour", command=self._un_tour).pack(fill="x", pady=2)
         ttk.Button(
-            cadre_actions, text="Ajouter un lapin", command=self._ajouter_lapin
-        ).pack(fill="x", pady=2)
-        ttk.Button(
-            cadre_actions, text="Ajouter un loup", command=self._ajouter_loup
-        ).pack(fill="x", pady=2)
-        ttk.Button(
             cadre_actions, text="Supprimer les morts", command=self._supprimer_morts
         ).pack(fill="x", pady=2)
+
+        cadre_ajout = ttk.LabelFrame(panneau, text="Ajouter par clic sur la grille", padding=8)
+        cadre_ajout.pack(fill="x", pady=(10, 0))
+        ttk.Radiobutton(
+            cadre_ajout, text="Aucun", value="aucun", variable=self.outil
+        ).pack(anchor="w")
+        ttk.Radiobutton(
+            cadre_ajout, text="Lapin (proie)", value="lapin", variable=self.outil
+        ).pack(anchor="w")
+        ttk.Radiobutton(
+            cadre_ajout, text="Loup (prédateur)", value="loup", variable=self.outil
+        ).pack(anchor="w")
 
         cadre_statistiques = ttk.LabelFrame(panneau, text="Statistiques", padding=8)
         cadre_statistiques.pack(fill="x", pady=(10, 0))
@@ -102,6 +111,9 @@ class Application(tk.Tk):
         cadre_legende.pack(fill="x", pady=(10, 0))
         self._legende(cadre_legende, COULEUR_LAPIN, "Lapin (proie)")
         self._legende(cadre_legende, COULEUR_LOUP, "Loup (prédateur)")
+
+        self.etiquette_etat = ttk.Label(panneau, text="Prêt", foreground="#555555")
+        self.etiquette_etat.pack(fill="x", pady=(10, 0))
 
     def _champ(self, parent: ttk.Frame, texte: str, valeur: int) -> ttk.Entry:
         """Créer un champ de saisie étiqueté."""
@@ -134,7 +146,9 @@ class Application(tk.Tk):
     def _initialiser(self) -> None:
         """Relire les paramètres et recréer l'environnement."""
         self.en_cours = False
+        self.termine = False
         self.bouton_play.config(text="Démarrer")
+        self.etiquette_etat.config(text="Prêt")
         largeur = self._lire(self.champ_largeur, COTE_DEFAUT, 10, 120)
         hauteur = self._lire(self.champ_hauteur, COTE_DEFAUT, 10, 120)
         nombre_lapins = self._lire(self.champ_lapins, 20, 0, 500)
@@ -157,9 +171,13 @@ class Application(tk.Tk):
         if self.en_cours:
             self.en_cours = False
             self.bouton_play.config(text="Démarrer")
+            self.etiquette_etat.config(text="En pause")
+        elif self.termine:
+            return
         else:
             self.en_cours = True
             self.bouton_play.config(text="Pause")
+            self.etiquette_etat.config(text="En cours")
             self._boucle()
 
     def _boucle(self) -> None:
@@ -167,29 +185,44 @@ class Application(tk.Tk):
         if not self.en_cours:
             return
         self._un_tour()
+        if not self.en_cours:
+            return
         intervalle = self._lire(self.champ_vitesse, VITESSE_MS, 20, 2000)
         self.after(intervalle, self._boucle)
 
     def _un_tour(self) -> None:
         """Avancer d'un tour et rafraîchir l'affichage."""
+        if self.termine:
+            return
         self.environnement.simuler_un_tour()
         self.tour_courant += 1
         self._dessiner()
         self._mettre_a_jour_statistiques()
+        if self.environnement.statistiques()["proies"] == 0:
+            self._terminer()
 
-    def _ajouter_lapin(self) -> None:
-        """Ajouter un lapin à une position aléatoire."""
+    def _terminer(self) -> None:
+        """Arrêter la simulation : il ne reste plus de proies."""
+        self.en_cours = False
+        self.termine = True
+        self.bouton_play.config(text="Démarrer")
+        self.etiquette_etat.config(text="Terminé : plus de proies")
+
+    def _clic(self, evenement: tk.Event) -> None:
+        """Ajouter l'animal choisi à la case cliquée."""
+        outil = self.outil.get()
+        if outil == "aucun":
+            return
         largeur = self.environnement.largeur
         hauteur = self.environnement.hauteur
-        self.environnement.ajouter(Lapin(random.randrange(largeur), random.randrange(hauteur)))
-        self._dessiner()
-        self._mettre_a_jour_statistiques()
-
-    def _ajouter_loup(self) -> None:
-        """Ajouter un loup à une position aléatoire."""
-        largeur = self.environnement.largeur
-        hauteur = self.environnement.hauteur
-        self.environnement.ajouter(Loup(random.randrange(largeur), random.randrange(hauteur)))
+        x = min(largeur - 1, max(0, evenement.x // self.taille_case))
+        y = min(hauteur - 1, max(0, evenement.y // self.taille_case))
+        if outil == "lapin":
+            self.environnement.ajouter(Lapin(x, y))
+            self.termine = False
+            self.etiquette_etat.config(text="Prêt")
+        else:
+            self.environnement.ajouter(Loup(x, y))
         self._dessiner()
         self._mettre_a_jour_statistiques()
 

@@ -26,3 +26,7 @@ htmlcov/
 
 # Divers
 *.log
+
+# Rapports locaux non versionnés (le rapport versionné est rapport.md)
+rapport.html
+traduction-rapport.md
