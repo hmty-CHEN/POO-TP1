@@ -57,48 +57,25 @@ classDiagram
 classDiagram
     class Animal {
         <<abstract>>
-        +int RAYON_DETECTION
         +int x
         +int y
+        +int energie
         +int age
         +int vitesse
-        +energie int
         +se_deplacer()*
-        +reproduire()* Animal
         +vieillir()
-        +perdre_energie(quantite)
-        +gagner_energie(quantite)
         +est_vivant() bool
-        +distance_avec(autre) float
-        +detecter(autre) bool
-        +peut_se_reproduire() bool
     }
     class Lapin {
-        +int RAYON_DETECTION = 4
         +se_deplacer()
-        +fuir(menace)
-        +reproduire() Lapin
+        +fuir()
     }
     class Loup {
-        +int GAIN_CHASSE
         +se_deplacer()
-        +rechercher_proies(animaux) list
-        +se_deplacer_vers(cible)
-        +chasser(proie)
-        +reproduire() Loup
-    }
-    class Environnement {
-        +int largeur
-        +int hauteur
-        +list animaux
-        +ajouter(animal)
-        +supprimer_morts()
-        +compter(espece) int
-        +simuler_un_tour()
+        +chasser()
     }
     Animal <|-- Lapin
     Animal <|-- Loup
-    Environnement "1" *-- "0..*" Animal : contient
 ```
 
 ## 练习 12：多态
@@ -181,3 +158,90 @@ def fuir(self, menace):
 ```
 
 逃跑是局部的：兔子不会预判狼的移动。由于狼每回合前进 2 格而兔子只有 1 格，在开阔地形中狼最终仍会追上。
+
+## 整合 8：最终 UML 类图
+
+### 问题
+
+> 绘制一张表示你的设计的 UML 图。
+
+```mermaid
+classDiagram
+    direction TB
+
+    class Animal {
+        <<abstract>>
+        +int RAYON_DETECTION
+        +int x
+        +int y
+        +int age
+        +int vitesse
+        +energie int
+        +se_deplacer()*
+        +reproduire()* Animal
+        +agir(animaux)
+        +vieillir()
+        +perdre_energie(quantite)
+        +gagner_energie(quantite)
+        +est_vivant() bool
+        +distance_avec(autre) float
+        +detecter(autre) bool
+        +peut_se_reproduire() bool
+    }
+
+    class Proie {
+        <<abstract>>
+        +se_deplacer()
+        +fuir(menace)
+        +se_nourrir()
+        +agir(animaux)
+    }
+
+    class Predateur {
+        <<abstract>>
+        +se_deplacer()
+        +rechercher_proies(animaux) list
+        +se_deplacer_vers(cible)
+        +chasser(proie)
+        +agir(animaux)
+    }
+
+    class Lapin {
+        +int RAYON_DETECTION = 4
+        +reproduire() Lapin
+    }
+
+    class Loup {
+        +int vitesse = 2
+        +reproduire() Loup
+    }
+
+    class Environnement {
+        +int largeur
+        +int hauteur
+        +list animaux
+        +ajouter(animal)
+        +supprimer_morts()
+        +compter(espece) int
+        +simuler_un_tour()
+        +statistiques() dict
+    }
+
+    class Simulation {
+        +int nombre_lapins
+        +int nombre_loups
+        +Environnement environnement
+        +initialiser_populations()
+        +executer(nombre_de_tours)
+        +afficher_statistiques(tour)
+    }
+
+    Animal <|-- Proie
+    Animal <|-- Predateur
+    Proie <|-- Lapin
+    Predateur <|-- Loup
+    Environnement "1" *-- "0..*" Animal : contient
+    Simulation "1" --> "1" Environnement : pilote
+```
+
+图中体现了继承（`Animal` → `Proie` / `Predateur` → `Lapin` / `Loup`）、`Environnement` 与动物之间的组合关系，以及驱动环境的 `Simulation`。抽象类用构造型 `<<abstract>>` 标出。

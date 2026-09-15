@@ -59,48 +59,25 @@ classDiagram
 classDiagram
     class Animal {
         &lt;&lt;abstract&gt;&gt;
-        +int RAYON_DETECTION
         +int x
         +int y
+        +int energie
         +int age
         +int vitesse
-        +energie int
         +se_deplacer()*
-        +reproduire()* Animal
         +vieillir()
-        +perdre_energie(quantite)
-        +gagner_energie(quantite)
         +est_vivant() bool
-        +distance_avec(autre) float
-        +detecter(autre) bool
-        +peut_se_reproduire() bool
     }
     class Lapin {
-        +int RAYON_DETECTION = 4
         +se_deplacer()
-        +fuir(menace)
-        +reproduire() Lapin
+        +fuir()
     }
     class Loup {
-        +int GAIN_CHASSE
         +se_deplacer()
-        +rechercher_proies(animaux) list
-        +se_deplacer_vers(cible)
-        +chasser(proie)
-        +reproduire() Loup
-    }
-    class Environnement {
-        +int largeur
-        +int hauteur
-        +list animaux
-        +ajouter(animal)
-        +supprimer_morts()
-        +compter(espece) int
-        +simuler_un_tour()
+        +chasser()
     }
     Animal &lt;|-- Lapin
     Animal &lt;|-- Loup
-    Environnement "1" *-- "0..*" Animal : contient
   </pre>
 
   <h2>Exercice 12 — Polymorphisme</h2>
@@ -145,6 +122,88 @@ classDiagram
     self.x += meilleur[0]
     self.y += meilleur[1]</pre>
   <p>La fuite reste locale : le lapin ne prévoit pas le déplacement du loup. Comme le loup avance de deux cases par tour contre une pour le lapin, il finit par le rattraper en terrain ouvert.</p>
+
+  <h2>Exercice final 8 — Diagramme UML</h2>
+  <p class="question">Réalisez un diagramme UML représentant votre conception.</p>
+  <pre class="mermaid">
+classDiagram
+    direction TB
+
+    class Animal {
+        &lt;&lt;abstract&gt;&gt;
+        +int RAYON_DETECTION
+        +int x
+        +int y
+        +int age
+        +int vitesse
+        +energie int
+        +se_deplacer()*
+        +reproduire()* Animal
+        +agir(animaux)
+        +vieillir()
+        +perdre_energie(quantite)
+        +gagner_energie(quantite)
+        +est_vivant() bool
+        +distance_avec(autre) float
+        +detecter(autre) bool
+        +peut_se_reproduire() bool
+    }
+
+    class Proie {
+        &lt;&lt;abstract&gt;&gt;
+        +se_deplacer()
+        +fuir(menace)
+        +se_nourrir()
+        +agir(animaux)
+    }
+
+    class Predateur {
+        &lt;&lt;abstract&gt;&gt;
+        +se_deplacer()
+        +rechercher_proies(animaux) list
+        +se_deplacer_vers(cible)
+        +chasser(proie)
+        +agir(animaux)
+    }
+
+    class Lapin {
+        +int RAYON_DETECTION = 4
+        +reproduire() Lapin
+    }
+
+    class Loup {
+        +int vitesse = 2
+        +reproduire() Loup
+    }
+
+    class Environnement {
+        +int largeur
+        +int hauteur
+        +list animaux
+        +ajouter(animal)
+        +supprimer_morts()
+        +compter(espece) int
+        +simuler_un_tour()
+        +statistiques() dict
+    }
+
+    class Simulation {
+        +int nombre_lapins
+        +int nombre_loups
+        +Environnement environnement
+        +initialiser_populations()
+        +executer(nombre_de_tours)
+        +afficher_statistiques(tour)
+    }
+
+    Animal &lt;|-- Proie
+    Animal &lt;|-- Predateur
+    Proie &lt;|-- Lapin
+    Predateur &lt;|-- Loup
+    Environnement "1" *-- "0..*" Animal : contient
+    Simulation "1" --> "1" Environnement : pilote
+  </pre>
+  <p>Le diagramme fait apparaître l'héritage (<code>Animal</code> → <code>Proie</code> / <code>Predateur</code> → <code>Lapin</code> / <code>Loup</code>), la composition entre <code>Environnement</code> et les animaux, et la classe <code>Simulation</code> qui pilote l'environnement. Les classes abstraites sont indiquées par le stéréotype <code>&lt;&lt;abstract&gt;&gt;</code>.</p>
 
   <footer>TP de programmation orientée objet — Python 3</footer>
 

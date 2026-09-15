@@ -2,16 +2,19 @@
 
 Projet de TP — Programmation orientée objet en Python.
 
-> État actuel : exercices 1 à 23.
+> État actuel : intégration finale (classes `Proie`, `Predateur`, `Simulation`).
 
 ## Arborescence
 
 ```text
 simulation-ecosysteme-poo/
 ├── animal.py
+├── proie.py
+├── predateur.py
 ├── lapin.py
 ├── loup.py
 ├── environnement.py
+├── simulation.py
 ├── main.py
 ├── rapport.html
 └── traduction-rapport.md
@@ -19,11 +22,14 @@ simulation-ecosysteme-poo/
 
 | Fichier | Contenu |
 | --- | --- |
-| `animal.py` | Classe `Animal` (attributs et méthodes communs). |
-| `lapin.py` | Classe `Lapin`, hérite d'`Animal`. |
-| `loup.py` | Classe `Loup`, hérite d'`Animal`. |
-| `environnement.py` | Classe `Environnement` (composition, tours, reproduction). |
-| `main.py` | Démonstration de l'environnement. |
+| `animal.py` | Classe abstraite `Animal`. |
+| `proie.py` | Classe abstraite `Proie`. |
+| `predateur.py` | Classe abstraite `Predateur`. |
+| `lapin.py` | Classe `Lapin`, hérite de `Proie`. |
+| `loup.py` | Classe `Loup`, hérite de `Predateur`. |
+| `environnement.py` | Classe `Environnement` (composition, tours, statistiques). |
+| `simulation.py` | Classe `Simulation` (populations, tours, affichage). |
+| `main.py` | Point d'entrée : lance la simulation. |
 | `rapport.html` | Rapport de cours en français. |
 | `traduction-rapport.md` | Traduction chinoise du rapport. |
 
@@ -31,9 +37,6 @@ simulation-ecosysteme-poo/
 
 ```bash
 python main.py
-python environnement.py
-python lapin.py
-python loup.py
 ```
 
 ## Organisation du travail

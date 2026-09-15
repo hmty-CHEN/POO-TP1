@@ -1,8 +1,6 @@
 """Classe Environnement."""
 
 from animal import Animal
-from lapin import Lapin
-from loup import Loup
 
 
 class Environnement:
@@ -26,9 +24,9 @@ class Environnement:
         return sum(isinstance(animal, espece) for animal in self.animaux)
 
     def simuler_un_tour(self) -> None:
-        """Déplacer, vieillir, consommer, reproduire, puis retirer les morts."""
+        """Agir, consommer, vieillir, reproduire, puis retirer les morts."""
         for animal in list(self.animaux):
-            animal.se_deplacer()
+            animal.agir(self.animaux)
             animal.perdre_energie(Animal.COUT_DEPLACEMENT)
             animal.vieillir()
 
@@ -41,10 +39,18 @@ class Environnement:
 
         self.supprimer_morts()
 
+    def statistiques(self) -> dict:
+        """Renvoyer les compteurs de population."""
+        proies = sum(animal.EST_PROIE for animal in self.animaux)
+        predateurs = sum(animal.EST_PREDATEUR for animal in self.animaux)
+        return {"proies": proies, "predateurs": predateurs, "total": len(self.animaux)}
+
 
 if __name__ == "__main__":
+    from lapin import Lapin
+    from loup import Loup
+
     environnement = Environnement(100, 100)
     environnement.ajouter(Lapin(10, 20))
     environnement.ajouter(Loup(80, 20))
-    print(environnement.compter(Lapin), environnement.compter(Loup))
-    print(environnement.largeur, environnement.hauteur, len(environnement.animaux))
+    print(environnement.statistiques())

@@ -10,6 +10,8 @@ class Animal(ABC):
     RAYON_DETECTION = 10
     COUT_DEPLACEMENT = 1
     COUT_REPRODUCTION = 30
+    EST_PROIE = False
+    EST_PREDATEUR = False
 
     def __init__(self, x: int, y: int) -> None:
         self.x = x
@@ -32,6 +34,10 @@ class Animal(ABC):
     def reproduire(self) -> "Animal":
         """Créer un nouvel animal de la même espèce."""
         ...
+
+    def agir(self, animaux: list) -> None:
+        """Comportement par défaut d'un tour : se déplacer."""
+        self.se_deplacer()
 
     def vieillir(self) -> None:
         """Augmenter l'âge de 1 et retirer 1 d'énergie."""
